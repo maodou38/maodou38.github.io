@@ -2,12 +2,61 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-03-18T04:13:23.063Z</updated>
+    <updated>2020-03-21T08:09:33.306Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
     <logo>https://maodou38.github.io/images/avatar.png</logo>
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
+    <entry>
+        <title type="html"><![CDATA[centos 安装docker及docker-compose]]></title>
+        <id>https://maodou38.github.io/post/centos-an-zhuang-docker-ji-docker-compose/</id>
+        <link href="https://maodou38.github.io/post/centos-an-zhuang-docker-ji-docker-compose/">
+        </link>
+        <updated>2020-03-21T07:48:52.000Z</updated>
+        <content type="html"><![CDATA[<p>#Docker安装</p>
+<p>##1.删除已安装的Docker</p>
+<pre><code class="language-bash">    sudo yum remove docker \\
+                     docker-client \\
+                     docker-client-latest \\
+                     docker-common \\
+                     docker-latest \\
+                     docker-latest-logrotate \\
+                     docker-logrotate \\
+                     docker-selinux \\
+                     docker-engine-selinux \\
+                     docker-engine
+</code></pre>
+<p>##2.配置阿里云Docker Yum源</p>
+<pre><code class="language-bash"> sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre>
+<p>##3.安装指定版本<br>
+<code>bash yum list docker-ce --showduplicates</code><br>
+###3.1、安装较旧版本</p>
+<pre><code class="language-bash">      //注意：需要指定完整的rpm包的包名，并且加上--setopt=obsoletes=0 参数：
+   yum install -y --setopt=obsoletes=0 \
+  docker-ce-17.03.2.ce-1.el7.centos.x86_64 \
+  docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch
+  ```
+###3.2、安装Docker最新版本
+```bash
+sudo yum install docker-ce
+</code></pre>
+<p>##4.启用阿里云Docker镜像加速<br>
+https://cr.console.aliyun.com 自己申请账号，下面是我自己的</p>
+<pre><code class="language-bash">sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
+{
+  &quot;registry-mirrors&quot;: [&quot;https://registry.cn-shanghai.aliyuncs.com/ding_docker_registry/ding_docker_registry&quot;]
+}
+EOF
+</code></pre>
+<p>##5.启动Docker服务</p>
+<pre><code class="language-bash">systemctl enable docker
+systemctl start docker
+</code></pre>
+]]></content>
+    </entry>
 </feed>
