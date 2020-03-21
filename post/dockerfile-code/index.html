@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584788077719">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584788375676">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1584788077719" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1584788375676" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -96,7 +96,8 @@
 <a href="#stopsignal">当容器推出时给系统发送什么样的指令-STOPSIGNAL</a><br>
 <a href="#healthcheck">容器健康状况检查-HEALTHCHECK</a></p>
 <h1 id="from">FROM</h1>
-<p>功能为指定基础镜像，并且必须是第一条指令。<br>
+<p><a href="#"></a><br>
+功能为指定基础镜像，并且必须是第一条指令。<br>
 如果不以任何镜像为基础，那么写法为：FROM scratch。<br>
 同时意味着接下来所写的指令将作为镜像的第一层开始<br>
 语法：</p>
@@ -296,9 +297,9 @@ ARG buildno=1
 这个 ls -al 命令不会在A镜像构建或启动的时候执行</p>
 <p>此时有一个镜像B是基于A镜像构建的，那么这个ls -al 命令会在B镜像构建的时候被执行。</p>
 <h1 id="stopsignal">STOPSIGNAL</h1>
-<p>语法：</p>
+<p>STOPSIGNAL命令是的作用是当容器推出时给系统发送什么样的指令<br>
+语法：</p>
 <pre><code>STOPSIGNAL signal
-STOPSIGNAL命令是的作用是当容器推出时给系统发送什么样的指令
 </code></pre>
 <h1 id="healthcheck">HEALTHCHECK</h1>
 <p>容器健康状况检查命令<br>
