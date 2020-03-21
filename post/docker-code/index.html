@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584784267249">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584788987607">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -18,13 +18,13 @@
 
 
 
-    <meta name="description" content="#查看 Docker 版本
+    <meta name="description" content="查看 Docker 版本
 docker version
-#从 Docker 文件构建 Docker 映像
+从 Docker 文件构建 Docker 映像
 docker build -t image-name docker-file-location
-#运行 Docker 映像
-dock..." />
-    <meta name="keywords" content="" />
+运行 Docker 映像
+docker ..." />
+    <meta name="keywords" content="docker" />
   </head>
   <body>
     <div id="app" class="main">
@@ -33,7 +33,7 @@ dock..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1584784267249" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1584788987607" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -75,44 +75,52 @@ dock..." />
             <div class="post-date">2020-03-21</div>
             
             <div class="post-content" v-pre>
-              <p>#查看 Docker 版本<br>
-<code>docker version</code></p>
-<p>#从 Docker 文件构建 Docker 映像<br>
-<code>docker build -t image-name docker-file-location</code></p>
-<p>#运行 Docker 映像<br>
-<code>docker run -d image-name</code></p>
-<p>#查看可用的 Docker 映像<br>
-<code>docker images</code></p>
-<p>#查看最近的运行容器<br>
-<code>docker ps -l</code></p>
-<p>#查看所有正在运行的容器<br>
-<code>docker ps -a</code></p>
-<p>#停止运行容器<br>
-<code>docker stop container_id</code></p>
-<p>#删除一个镜像<br>
-<code>docker rmi image-name</code></p>
-<p>#删除所有镜像<br>
-<code>docker rmi $(docker images -q)</code></p>
-<p>#强制删除所有镜像<br>
-<code>docker rmi -r $(docker images -q)</code></p>
-<p>#删除所有虚悬镜像<br>
-<code>docker rmi $(docker images -q -f dangling=true)</code></p>
-<p>#删除所有容器<br>
-<code>docker rm $(docker ps -a -q)</code></p>
-<p>#进入 Docker 容器<br>
-<code>docker exec -it container-id /bin/bash</code></p>
-<p>#查看所有数据卷<br>
-<code>docker volume ls</code></p>
-<p>#删除指定数据卷<br>
-<code>docker volume rm [volume_name]</code></p>
-<p>#删除所有未关联的数据卷<br>
-<code>docker volume rm $(docker volume ls -qf dangling=true)</code></p>
-<p>#从主机复制文件到容器<br>
-<code>sudo docker cp host_path containerID:container_path</code></p>
-<p>#从容器复制文件到主机<br>
-<code>sudo docker cp containerID:container_path host_path</code></p>
+              <h1 id="查看-docker-版本">查看 Docker 版本</h1>
+<p><code>docker version</code></p>
+<h1 id="从-docker-文件构建-docker-映像">从 Docker 文件构建 Docker 映像</h1>
+<p><code>docker build -t image-name docker-file-location</code></p>
+<h1 id="运行-docker-映像">运行 Docker 映像</h1>
+<p><code>docker run -d image-name</code></p>
+<h1 id="查看可用的-docker-映像">查看可用的 Docker 映像</h1>
+<p><code>docker images</code></p>
+<h1 id="查看最近的运行容器">查看最近的运行容器</h1>
+<p><code>docker ps -l</code></p>
+<h1 id="查看所有正在运行的容器">查看所有正在运行的容器</h1>
+<p><code>docker ps -a</code></p>
+<h1 id="停止运行容器">停止运行容器</h1>
+<p><code>docker stop container_id</code></p>
+<h1 id="删除一个镜像">删除一个镜像</h1>
+<p><code>docker rmi image-name</code></p>
+<h1 id="删除所有镜像">删除所有镜像</h1>
+<p><code>docker rmi $(docker images -q)</code></p>
+<h1 id="强制删除所有镜像">强制删除所有镜像</h1>
+<p><code>docker rmi -r $(docker images -q)</code></p>
+<h1 id="删除所有虚悬镜像">删除所有虚悬镜像</h1>
+<p><code>docker rmi $(docker images -q -f dangling=true)</code></p>
+<h1 id="删除所有容器">删除所有容器</h1>
+<p><code>docker rm $(docker ps -a -q)</code></p>
+<h1 id="进入-docker-容器">进入 Docker 容器</h1>
+<p><code>docker exec -it container-id /bin/bash</code></p>
+<h1 id="查看所有数据卷">查看所有数据卷</h1>
+<p><code>docker volume ls</code></p>
+<h1 id="删除指定数据卷">删除指定数据卷</h1>
+<p><code>docker volume rm [volume_name]</code></p>
+<h1 id="删除所有未关联的数据卷">删除所有未关联的数据卷</h1>
+<p><code>docker volume rm $(docker volume ls -qf dangling=true)</code></p>
+<h1 id="从主机复制文件到容器">从主机复制文件到容器</h1>
+<p><code>sudo docker cp host_path containerID:container_path</code></p>
+<h1 id="从容器复制文件到主机">从容器复制文件到主机</h1>
+<p><code>sudo docker cp containerID:container_path host_path</code></p>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://maodou38.github.io/tag/0uebfnyNe/" class="tag">
+                    docker
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
