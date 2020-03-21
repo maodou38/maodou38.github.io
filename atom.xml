@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-03-21T09:51:11.242Z</updated>
+    <updated>2020-03-21T09:51:23.249Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -13,50 +13,6 @@
         <title type="html"><![CDATA[Docker常用命令]]></title>
         <id>https://maodou38.github.io/post/docker-chang-yong-ming-ling/</id>
         <link href="https://maodou38.github.io/post/docker-chang-yong-ming-ling/">
-        </link>
-        <updated>2020-03-21T09:45:56.000Z</updated>
-        <content type="html"><![CDATA[<p>#查看 Docker 版本<br>
-<code>docker version</code></p>
-<p>#从 Docker 文件构建 Docker 映像<br>
-<code>docker build -t image-name docker-file-location</code></p>
-<p>#运行 Docker 映像<br>
-<code>docker run -d image-name</code></p>
-<p>#查看可用的 Docker 映像<br>
-<code>docker images</code></p>
-<p>#查看最近的运行容器<br>
-<code>docker ps -l</code></p>
-<p>#查看所有正在运行的容器<br>
-<code>docker ps -a</code></p>
-<p>#停止运行容器<br>
-<code>docker stop container_id</code></p>
-<p>#删除一个镜像<br>
-<code>docker rmi image-name</code></p>
-<p>#删除所有镜像<br>
-<code>docker rmi $(docker images -q)</code></p>
-<p>#强制删除所有镜像<br>
-<code>docker rmi -r $(docker images -q)</code></p>
-<p>#删除所有虚悬镜像<br>
-<code>docker rmi $(docker images -q -f dangling=true)</code></p>
-<p>#删除所有容器<br>
-<code>docker rm $(docker ps -a -q)</code></p>
-<p>#进入 Docker 容器<br>
-<code>docker exec -it container-id /bin/bash</code></p>
-<p>#查看所有数据卷<br>
-<code>docker volume ls</code></p>
-<p>#删除指定数据卷<br>
-<code>docker volume rm [volume_name]</code></p>
-<p>#删除所有未关联的数据卷<br>
-<code>docker volume rm $(docker volume ls -qf dangling=true)</code></p>
-<p>#从主机复制文件到容器<br>
-<code>sudo docker cp host_path containerID:container_path</code></p>
-<p>#从容器复制文件到主机<br>
-<code>sudo docker cp containerID:container_path host_path</code></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Docker常用命令]]></title>
-        <id>https://maodou38.github.io/post/docker-code/</id>
-        <link href="https://maodou38.github.io/post/docker-code/">
         </link>
         <updated>2020-03-21T09:45:56.000Z</updated>
         <content type="html"><![CDATA[<p>#查看 Docker 版本<br>
