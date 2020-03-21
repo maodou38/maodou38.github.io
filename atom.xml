@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-03-21T08:50:17.860Z</updated>
+    <updated>2020-03-21T09:10:50.245Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -37,7 +37,7 @@
 <p>##Dockerfile<br>
 在 /usr/local/docker/runner/environment 目录下创建 Dockerfile</p>
 <pre><code class="language-dockerfile">FROM gitlab/gitlab-runner
-MAINTAINER Lusifer &lt;topsale@vip.qq.com&gt;
+MAINTAINER maodou38 &lt;maodoulove19950815@vip.qq.com&gt;
 
 # 修改软件源
 RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse' &gt; /etc/apt/sources.list &amp;&amp; \
