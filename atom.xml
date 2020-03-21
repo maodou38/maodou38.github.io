@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-03-21T09:51:23.249Z</updated>
+    <updated>2020-03-21T10:44:32.009Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -10,47 +10,309 @@
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
     <entry>
+        <title type="html"><![CDATA[Dockerfile 指令]]></title>
+        <id>https://maodou38.github.io/post/dockerfile-zhi-ling/</id>
+        <link href="https://maodou38.github.io/post/dockerfile-zhi-ling/">
+        </link>
+        <updated>2020-03-21T09:55:53.000Z</updated>
+        <content type="html"><![CDATA[<p><a href="#FROM">指定基础镜像-FROM</a><br>
+<a href="#RUN">运行指定命令-RUN</a><br>
+<a href="#CMD">容器启动时要运行的命令-CMD</a><br>
+<a href="#LABEL">为镜像指定标签-LABEL</a><br>
+<a href="#MAINTAINER">指定作者-MAINTAINER</a><br>
+<a href="#EXPOSE">暴漏容器运行时的监听端口给外部-EXPOSE</a><br>
+<a href="#ENV">设置环境变量-ENV</a><br>
+<a href="#ADD">复制命令-ADD</a><br>
+<a href="#COPY">复制命令-COPY</a><br>
+<a href="#ENTRYPOINT">启动时的默认命令-ENTRYPOINT</a><br>
+<a href="#VOLUME">挂载-VOLUME</a><br>
+<a href="#USER">设置启动容器的用户-USER</a><br>
+<a href="#WORKDIR">设置工作目录-WORKDIR</a><br>
+<a href="#ARG">设置变量-ARG</a><br>
+<a href="#ONBUILD">使命令只对子镜像生效-ONBUILD</a><br>
+<a href="#STOPSIGNAL">当容器推出时给系统发送什么样的指令-STOPSIGNAL</a><br>
+<a href="#HEALTHCHECK">容器健康状况检查-HEALTHCHECK</a></p>
+<h1 id="from">FROM</h1>
+<p>功能为指定基础镜像，并且必须是第一条指令。<br>
+如果不以任何镜像为基础，那么写法为：FROM scratch。<br>
+同时意味着接下来所写的指令将作为镜像的第一层开始<br>
+语法：</p>
+<pre><code>FROM &lt;image&gt;
+FROM &lt;image&gt;:&lt;tag&gt;
+FROM &lt;image&gt;:&lt;digest&gt; 
+</code></pre>
+<p>三种写法，其中<tag>和<digest> 是可选项，如果没有选择，那么默认值为latest</p>
+<h1 id="run">RUN</h1>
+<p>功能为运行指定的命令<br>
+RUN命令有两种格式</p>
+<pre><code>1. RUN &lt;command&gt;
+2. RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]
+</code></pre>
+<p>第一种后边直接跟shell命令<br>
+在linux操作系统上默认 /bin/sh -c<br>
+在windows操作系统上默认 cmd /S /C<br>
+第二种是类似于函数调用。<br>
+可将executable理解成为可执行文件，后面就是两个参数。</p>
+<p>两种写法比对：</p>
+<pre><code>RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME
+RUN [&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;echo hello&quot;]
+</code></pre>
+<p>注意：多行命令不要写多个RUN，原因是Dockerfile中每一个指令都会建立一层.<br>
+多少个RUN就构建了多少层镜像，会造成镜像的臃肿、多层，不仅仅增加了构件部署的时间，还容易出错。<br>
+RUN书写时的换行符是\</p>
+<h1 id="cmd">CMD</h1>
+<p>功能为容器启动时要运行的命令<br>
+语法有三种写法</p>
+<pre><code>1. CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]
+2. CMD [&quot;param1&quot;,&quot;param2&quot;]
+3. CMD command param1 param2
+</code></pre>
+<p>第三种比较好理解了，就时shell这种执行方式和写法<br>
+第一种和第二种其实都是可执行文件加上参数的形式</p>
+<p>举例说明两种写法：</p>
+<pre><code>CMD [ &quot;sh&quot;, &quot;-c&quot;, &quot;echo $HOME&quot; ]
+CMD [ &quot;echo&quot;, &quot;$HOME&quot; ]
+</code></pre>
+<p>补充细节：这里边包括参数的一定要用双引号，就是&quot;,不能是单引号。千万不能写成单引号。<br>
+原因是参数传递后，docker解析的是一个JSON array</p>
+<p>___ RUN &amp; CMD ___<br>
+不要把RUN和CMD搞混了。<br>
+RUN是构件容器时就运行的命令以及提交运行结果<br>
+CMD是容器启动时执行的命令，在构件时并不运行，构件时紧紧指定了这个命令到底是个什么样子</p>
+<h1 id="label">LABEL</h1>
+<p>功能是为镜像指定标签<br>
+语法：</p>
+<pre><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...
+</code></pre>
+<p>一个Dockerfile种可以有多个LABEL，如下：<br>
+LABEL &quot;com.example.vendor&quot;=&quot;ACME Incorporated&quot;<br>
+LABEL com.example.label-with-value=&quot;foo&quot;<br>
+LABEL version=&quot;1.0&quot;<br>
+LABEL description=&quot;This text illustrates <br>
+that label-values can span multiple lines.&quot;<br>
+但是并不建议这样写，最好就写成一行，如太长需要换行的话则使用\符号<br>
+如下：</p>
+<pre><code>LABEL multi.label1=&quot;value1&quot; \
+multi.label2=&quot;value2&quot; \
+other=&quot;value3&quot;
+</code></pre>
+<p>说明：LABEL会继承基础镜像种的LABEL，如遇到key相同，则值覆盖</p>
+<h1 id="maintainer">MAINTAINER</h1>
+<p>指定作者<br>
+语法：</p>
+<pre><code>MAINTAINER &lt;name&gt;
+</code></pre>
+<h1 id="expose">EXPOSE</h1>
+<p>暴漏容器运行时的监听端口给外部<br>
+EXPOSE并不会使容器访问主机的端口<br>
+如果想使得容器与主机的端口有映射关系，必须在容器启动的时候加上 -P参数</p>
+<h1 id="env">ENV</h1>
+<p>功能为设置环境变量<br>
+语法有两种</p>
+<pre><code>1. ENV &lt;key&gt; &lt;value&gt;
+2. ENV &lt;key&gt;=&lt;value&gt; ...
+</code></pre>
+<p>两者的区别就是第一种是一次设置一个，第二种是一次设置多个</p>
+<h1 id="add">ADD</h1>
+<p>复制命令<br>
+tar包会自动解压<br>
+如果把虚拟机与容器想象成两台linux服务器的话，那么这个命令就类似于scp，只是scp需要加用户名和密码的权限验证，而ADD不用。<br>
+语法如下：</p>
+<pre><code>1. ADD &lt;src&gt;... &lt;dest&gt;
+2. ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]
+</code></pre>
+<p><dest>路径的填写可以是容器内的绝对路径，也可以是相对于工作目录的相对路径<br>
+<src>可以是一个本地文件或者是一个本地压缩文件，还可以是一个url<br>
+如果把<src>写成一个url，那么ADD就类似于wget命令<br>
+如以下写法都是可以的：</p>
+<pre><code>ADD test relativeDir/ 
+ADD test /relativeDir
+ADD http://example.com/foobar /
+</code></pre>
+<p>尽量不要把<scr>写成一个文件夹，如果<src>是一个文件夹了，复制整个目录的内容,包括文件系统元数据</p>
+<h1 id="copy">COPY</h1>
+<p>复制命令</p>
+<p>语法如下：</p>
+<pre><code>1. COPY &lt;src&gt;... &lt;dest&gt;
+2. COPY [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]
+</code></pre>
+<p><em><strong>COPY与ADD的区别</strong></em><br>
+COPY的<src>只能是本地文件，其他用法一致</p>
+<h1 id="entrypoint">ENTRYPOINT</h1>
+<p>启动时的默认命令<br>
+语法如下：</p>
+<pre><code>1. ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]
+2. ENTRYPOINT command param1 param2
+</code></pre>
+<p>如果从上到下看到这里的话，那么你应该对这两种语法很熟悉啦。<br>
+第二种就是写shell<br>
+第一种就是可执行文件加参数</p>
+<p><em><strong>与CMD比较说明（这俩命令太像了，而且还可以配合使用）：</strong></em><br>
+<strong>1. 相同点：</strong><br>
+只能写一条，如果写了多条，那么只有最后一条生效<br>
+容器启动时才运行，运行时机相同<br>
+<strong>2. 不同点：</strong><br>
+ENTRYPOINT不会被运行的command覆盖，而CMD则会被覆盖<br>
+如果我们在Dockerfile种同时写了ENTRYPOINT和CMD，并且CMD指令不是一个完整的可执行命令，那么CMD指定的内容将会作为ENTRYPOINT的参数<br>
+如下：</p>
+<pre><code>FROM ubuntu
+ENTRYPOINT [&quot;top&quot;, &quot;-b&quot;]
+CMD [&quot;-c&quot;]
+</code></pre>
+<p>如果我们在Dockerfile种同时写了ENTRYPOINT和CMD，并且CMD是一个完整的指令，那么它们两个会互相覆盖，谁在最后谁生效<br>
+<img src="https://maodou38.github.io/post-images/1584786006340.jpg" alt="" loading="lazy"></p>
+<h1 id="volume">VOLUME</h1>
+<p>可实现挂载功能，可以将内地文件夹或者其他容器种得文件夹挂在到这个容器种<br>
+语法为：</p>
+<pre><code>VOLUME [&quot;/data&quot;]
+</code></pre>
+<p>说明：<br>
+[&quot;/data&quot;]可以是一个JsonArray ，也可以是多个值。所以如下几种写法都是正确的</p>
+<pre><code>VOLUME [\&quot;/var/log/\&quot;]
+VOLUME /var/log
+VOLUME /var/log /var/db
+</code></pre>
+<p>一般的使用场景为需要持久化存储数据时<br>
+容器使用的是AUFS，这种文件系统不能持久化数据，当容器关闭后，所有的更改都会丢失。<br>
+所以当数据需要持久化时用这个命令。</p>
+<h1 id="user">USER</h1>
+<p>设置启动容器的用户，可以是用户名或UID，所以，只有下面的两种写法是正确的</p>
+<pre><code>USER daemo
+USER UID
+</code></pre>
+<p>注意：如果设置了容器以daemon用户去运行，那么RUN, CMD 和 ENTRYPOINT 都会以这个用户去运行</p>
+<h1 id="workdir">WORKDIR</h1>
+<p>设置工作目录<br>
+语法：</p>
+<pre><code>WORKDIR /path/to/workdir
+</code></pre>
+<p>设置工作目录，对RUN,CMD,ENTRYPOINT,COPY,ADD生效。如果不存在则会创建，也可以设置多次。<br>
+如：</p>
+<pre><code>WORKDIR /a
+WORKDIR b
+WORKDIR c
+RUN pwd
+</code></pre>
+<p>pwd执行的结果是/a/b/c<br>
+WORKDIR也可以解析环境变量<br>
+如：</p>
+<pre><code>ENV DIRPATH /path
+WORKDIR $DIRPATH/$DIRNAME
+RUN pwd
+</code></pre>
+<p>pwd的执行结果是/path/$DIRNAME</p>
+<h1 id="arg">ARG</h1>
+<p>设置变量<br>
+语法：</p>
+<pre><code>ARG &lt;name&gt;[=&lt;default value&gt;]
+</code></pre>
+<p>设置变量命令，ARG命令定义了一个变量，在docker build创建镜像的时候，使用 --build-arg <varname>=<value>来指定参数<br>
+如果用户在build镜像时指定了一个参数没有定义在Dockerfile种，那么将有一个Warning<br>
+提示如下：</p>
+<pre><code>[Warning] One or more build-args [foo] were not consumed.
+</code></pre>
+<p>我们可以定义一个或多个参数，如下：</p>
+<pre><code>FROM busybox
+ARG user1
+ARG buildno
+...
+</code></pre>
+<p>也可以给参数一个默认值：</p>
+<pre><code>FROM busybox
+ARG user1=someuser
+ARG buildno=1
+...
+</code></pre>
+<p>如果我们给了ARG定义的参数默认值，那么当build镜像时没有指定参数值，将会使用这个默认值</p>
+<h1 id="onbuild">ONBUILD</h1>
+<p>语法：<br>
+<code>ONBUILD [INSTRUCTION]</code><br>
+这个命令只对当前镜像的子镜像生效。<br>
+比如当前镜像为A，在Dockerfile种添加：<br>
+<code>ONBUILD RUN ls -al</code><br>
+这个 ls -al 命令不会在A镜像构建或启动的时候执行</p>
+<p>此时有一个镜像B是基于A镜像构建的，那么这个ls -al 命令会在B镜像构建的时候被执行。</p>
+<h1 id="stopsignal">STOPSIGNAL</h1>
+<p>语法：</p>
+<pre><code>STOPSIGNAL signal
+STOPSIGNAL命令是的作用是当容器推出时给系统发送什么样的指令
+</code></pre>
+<h1 id="healthcheck">HEALTHCHECK</h1>
+<p>容器健康状况检查命令<br>
+语法有两种：</p>
+<pre><code>1. HEALTHCHECK [OPTIONS] CMD command
+2. HEALTHCHECK NONE
+</code></pre>
+<p>第一个的功能是在容器内部运行一个命令来检查容器的健康状况<br>
+第二个的功能是在基础镜像中取消健康检查命令</p>
+<pre><code>[OPTIONS]的选项支持以下三中选项：
+
+    --interval=DURATION 两次检查默认的时间间隔为30秒
+
+    --timeout=DURATION 健康检查命令运行超时时长，默认30秒
+
+    --retries=N 当连续失败指定次数后，则容器被认为是不健康的，状态为unhealthy，默认次数是3
+注意：
+HEALTHCHECK命令只能出现一次，如果出现了多次，只有最后一个生效。
+CMD后边的命令的返回值决定了本次健康检查是否成功，具体的返回值如下：
+
+0: success - 表示容器是健康的
+
+1: unhealthy - 表示容器已经不能工作了
+
+2: reserved - 保留值
+</code></pre>
+<p>例子：</p>
+<pre><code>HEALTHCHECK --interval=5m --timeout=3s \
+CMD curl -f http://localhost/ || exit 1
+</code></pre>
+<p>健康检查命令是：curl -f http://localhost/ || exit 1</p>
+<p>两次检查的间隔时间是5秒</p>
+<p>命令超时时间为3秒</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Docker常用命令]]></title>
         <id>https://maodou38.github.io/post/docker-chang-yong-ming-ling/</id>
         <link href="https://maodou38.github.io/post/docker-chang-yong-ming-ling/">
         </link>
         <updated>2020-03-21T09:45:56.000Z</updated>
-        <content type="html"><![CDATA[<p>#查看 Docker 版本<br>
-<code>docker version</code></p>
-<p>#从 Docker 文件构建 Docker 映像<br>
-<code>docker build -t image-name docker-file-location</code></p>
-<p>#运行 Docker 映像<br>
-<code>docker run -d image-name</code></p>
-<p>#查看可用的 Docker 映像<br>
-<code>docker images</code></p>
-<p>#查看最近的运行容器<br>
-<code>docker ps -l</code></p>
-<p>#查看所有正在运行的容器<br>
-<code>docker ps -a</code></p>
-<p>#停止运行容器<br>
-<code>docker stop container_id</code></p>
-<p>#删除一个镜像<br>
-<code>docker rmi image-name</code></p>
-<p>#删除所有镜像<br>
-<code>docker rmi $(docker images -q)</code></p>
-<p>#强制删除所有镜像<br>
-<code>docker rmi -r $(docker images -q)</code></p>
-<p>#删除所有虚悬镜像<br>
-<code>docker rmi $(docker images -q -f dangling=true)</code></p>
-<p>#删除所有容器<br>
-<code>docker rm $(docker ps -a -q)</code></p>
-<p>#进入 Docker 容器<br>
-<code>docker exec -it container-id /bin/bash</code></p>
-<p>#查看所有数据卷<br>
-<code>docker volume ls</code></p>
-<p>#删除指定数据卷<br>
-<code>docker volume rm [volume_name]</code></p>
-<p>#删除所有未关联的数据卷<br>
-<code>docker volume rm $(docker volume ls -qf dangling=true)</code></p>
-<p>#从主机复制文件到容器<br>
-<code>sudo docker cp host_path containerID:container_path</code></p>
-<p>#从容器复制文件到主机<br>
-<code>sudo docker cp containerID:container_path host_path</code></p>
+        <content type="html"><![CDATA[<h1 id="查看-docker-版本">查看 Docker 版本</h1>
+<p><code>docker version</code></p>
+<h1 id="从-docker-文件构建-docker-映像">从 Docker 文件构建 Docker 映像</h1>
+<p><code>docker build -t image-name docker-file-location</code></p>
+<h1 id="运行-docker-映像">运行 Docker 映像</h1>
+<p><code>docker run -d image-name</code></p>
+<h1 id="查看可用的-docker-映像">查看可用的 Docker 映像</h1>
+<p><code>docker images</code></p>
+<h1 id="查看最近的运行容器">查看最近的运行容器</h1>
+<p><code>docker ps -l</code></p>
+<h1 id="查看所有正在运行的容器">查看所有正在运行的容器</h1>
+<p><code>docker ps -a</code></p>
+<h1 id="停止运行容器">停止运行容器</h1>
+<p><code>docker stop container_id</code></p>
+<h1 id="删除一个镜像">删除一个镜像</h1>
+<p><code>docker rmi image-name</code></p>
+<h1 id="删除所有镜像">删除所有镜像</h1>
+<p><code>docker rmi $(docker images -q)</code></p>
+<h1 id="强制删除所有镜像">强制删除所有镜像</h1>
+<p><code>docker rmi -r $(docker images -q)</code></p>
+<h1 id="删除所有虚悬镜像">删除所有虚悬镜像</h1>
+<p><code>docker rmi $(docker images -q -f dangling=true)</code></p>
+<h1 id="删除所有容器">删除所有容器</h1>
+<p><code>docker rm $(docker ps -a -q)</code></p>
+<h1 id="进入-docker-容器">进入 Docker 容器</h1>
+<p><code>docker exec -it container-id /bin/bash</code></p>
+<h1 id="查看所有数据卷">查看所有数据卷</h1>
+<p><code>docker volume ls</code></p>
+<h1 id="删除指定数据卷">删除指定数据卷</h1>
+<p><code>docker volume rm [volume_name]</code></p>
+<h1 id="删除所有未关联的数据卷">删除所有未关联的数据卷</h1>
+<p><code>docker volume rm $(docker volume ls -qf dangling=true)</code></p>
+<h1 id="从主机复制文件到容器">从主机复制文件到容器</h1>
+<p><code>sudo docker cp host_path containerID:container_path</code></p>
+<h1 id="从容器复制文件到主机">从容器复制文件到主机</h1>
+<p><code>sudo docker cp containerID:container_path host_path</code></p>
 ]]></content>
     </entry>
     <entry>
@@ -59,7 +321,7 @@
         <link href="https://maodou38.github.io/post/gitlab-runner/">
         </link>
         <updated>2020-03-21T08:31:59.000Z</updated>
-        <content type="html"><![CDATA[<p>#基于 Docker 安装 GitLab Runner</p>
+        <content type="html"><![CDATA[<h1 id="基于-docker-安装-gitlab-runner">基于 Docker 安装 GitLab Runner</h1>
 <h2 id="环境准备">环境准备</h2>
 <ul>
 <li>创建工作目录 /usr/local/docker/runner</li>
@@ -67,8 +329,8 @@
 <li>下载 jdk-8u152-linux-x64.tar.gz 并复制到 /usr/local/docker/runner/environment</li>
 <li>下载 apache-maven-3.5.3-bin.tar.gz 并复制到 /usr/local/docker/runner/environment</li>
 </ul>
-<p>##daemon.json<br>
-在 /usr/local/docker/runner/environment 目录下创建 daemon.json，用于配置加速器和仓库地址</p>
+<h2 id="daemonjson">daemon.json</h2>
+<p>在 /usr/local/docker/runner/environment 目录下创建 daemon.json，用于配置加速器和仓库地址</p>
 <pre><code class="language-json">{
   &quot;registry-mirrors&quot;: [
     &quot;https://registry.docker-cn.com&quot;
@@ -78,8 +340,8 @@
   ]
 }
 </code></pre>
-<p>##Dockerfile<br>
-在 /usr/local/docker/runner/environment 目录下创建 Dockerfile</p>
+<h2 id="dockerfile">Dockerfile</h2>
+<p>在 /usr/local/docker/runner/environment 目录下创建 Dockerfile</p>
 <pre><code class="language-dockerfile">FROM gitlab/gitlab-runner
 MAINTAINER maodou38 &lt;maodoulove19950815@vip.qq.com&gt;
 
@@ -127,8 +389,8 @@ ENV PATH $PATH:$JAVA_HOME/bin:$MAVEN_HOME/bin
 
 WORKDIR /
 </code></pre>
-<p>##docker-compose.yml<br>
-在 /usr/local/docker/runner 目录下创建 docker-compose.yml</p>
+<h2 id="docker-composeyml">docker-compose.yml</h2>
+<p>在 /usr/local/docker/runner 目录下创建 docker-compose.yml</p>
 <pre><code class="language-docker-compse">version: '3.1'
 services:
   gitlab-runner:
@@ -140,7 +402,7 @@ services:
       - ./config:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
 </code></pre>
-<p>##注册 Runner</p>
+<h2 id="注册-runner">注册 Runner</h2>
 <pre><code class="language-docker">docker exec -it gitlab-runner gitlab-runner register
 
 # 输入 GitLab 地址
@@ -171,12 +433,12 @@ false
 Please enter the executor: virtualbox, docker+machine, parallels, shell, ssh, docker-ssh+machine, kubernetes, docker, docker-ssh:
 shell
 </code></pre>
-<p>#使用 Runner</p>
-<p>##GitLab CI 地址与令牌参数<br>
-项目 –&gt; 设置 –&gt; CI/CD –&gt; Runner 设置<br>
+<h1 id="使用-runner">使用 Runner</h1>
+<h2 id="gitlab-ci-地址与令牌参数">GitLab CI 地址与令牌参数</h2>
+<p>项目 –&gt; 设置 –&gt; CI/CD –&gt; Runner 设置<br>
 <img src="https://maodou38.github.io/post-images/1584780166690.png" alt="" loading="lazy"></p>
-<p>##.gitlab-ci.yml<br>
-在项目工程下编写 .gitlab-ci.yml 配置文件：</p>
+<h2 id="gitlab-ciyml">.gitlab-ci.yml</h2>
+<p>在项目工程下编写 .gitlab-ci.yml 配置文件：</p>
 <pre><code>stages:
   - install_deps
   - test
@@ -253,14 +515,14 @@ deploy_production:
 <li>only：这里的 master 指在提交到 master 时执行</li>
 <li>tags：与注册 runner 时的 tag 匹配</li>
 </ul>
-<p>#其它命令</p>
+<h1 id="其它命令">其它命令</h1>
 <ul>
 <li>删除注册信息<br>
-<code>gitlab-ci-multi-runner unregister --name &quot;名称&quot;</code><br>
-*查看注册列表<br>
+<code>gitlab-ci-multi-runner unregister --name &quot;名称&quot;</code></li>
+<li>查看注册列表<br>
 <code>gitlab-ci-multi-runner list</code></li>
 </ul>
-<p>#Dockerfile示例</p>
+<h1 id="dockerfile示例">Dockerfile示例</h1>
 <pre><code>    FROM openjdk:8-jre
 
 MAINTAINER maodou38 &lt;maodoulove19950815@vip.qq.com&gt;
@@ -289,8 +551,8 @@ EXPOSE 8501
         <link href="https://maodou38.github.io/post/docker-install/">
         </link>
         <updated>2020-03-21T07:48:52.000Z</updated>
-        <content type="html"><![CDATA[<p>#Docker安装</p>
-<p>##1.删除已安装的Docker</p>
+        <content type="html"><![CDATA[<h1 id="docker安装">Docker安装</h1>
+<h2 id="1删除已安装的docker">1.删除已安装的Docker</h2>
 <pre><code class="language-bash">    sudo yum remove docker \\
                      docker-client \\
                      docker-client-latest \\
@@ -302,24 +564,27 @@ EXPOSE 8501
                      docker-engine-selinux \\
                      docker-engine
 </code></pre>
-<p>##2.配置阿里云Docker Yum源</p>
+<h2 id="2配置阿里云docker-yum源">2.配置阿里云Docker Yum源</h2>
 <pre><code class="language-bash"> sudo yum install -y yum-utils device-mapper-persistent-data lvm2
  sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 </code></pre>
-<p>##3.安装指定版本<br>
-<code>bash yum list docker-ce --showduplicates</code><br>
-###3.1、安装较旧版本</p>
+<h2 id="3安装指定版本">3.安装指定版本</h2>
+<pre><code>```bash
+ yum list docker-ce --showduplicates
+```
+</code></pre>
+<h3 id="31-安装较旧版本">3.1、安装较旧版本</h3>
 <pre><code class="language-bash">      //注意：需要指定完整的rpm包的包名，并且加上--setopt=obsoletes=0 参数：
    yum install -y --setopt=obsoletes=0 \
   docker-ce-17.03.2.ce-1.el7.centos.x86_64 \
   docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch
   ```
-###3.2、安装Docker最新版本
+### 3.2、安装Docker最新版本
 ```bash
 sudo yum install docker-ce
 </code></pre>
-<p>##4.启用阿里云Docker镜像加速<br>
-https://cr.console.aliyun.com 自己申请账号，下面是我自己的</p>
+<h2 id="4启用阿里云docker镜像加速">4.启用阿里云Docker镜像加速</h2>
+<p>https://cr.console.aliyun.com 自己申请账号，下面是我自己的</p>
 <pre><code class="language-bash">sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
 {
@@ -327,26 +592,26 @@ sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
 }
 EOF
 </code></pre>
-<p>##5.启动Docker服务</p>
+<h2 id="5启动docker服务">5.启动Docker服务</h2>
 <pre><code class="language-bash">systemctl enable docker
 systemctl start docker
 </code></pre>
-<p>#Docker 用户组设置</p>
-<p>##1.创建docker用户组（正常来说docker安装后会自动有docker用户组）</p>
+<h1 id="docker-用户组设置">Docker 用户组设置</h1>
+<h2 id="1创建docker用户组正常来说docker安装后会自动有docker用户组">1.创建docker用户组（正常来说docker安装后会自动有docker用户组）</h2>
 <pre><code class="language-bash">sudo groupadd docker
 </code></pre>
-<p>##2.两步选一步<br>
-###2.1将当前用户添加进组</p>
+<h2 id="2两步选一步">2.两步选一步</h2>
+<h3 id="21将当前用户添加进组">2.1将当前用户添加进组</h3>
 <pre><code class="language-bash">sudo gpasswd -a ${USER} docker
 </code></pre>
-<p>###2.2添加指定用户进组</p>
+<h3 id="22添加指定用户进组">2.2添加指定用户进组</h3>
 <pre><code class="language-bash">sudo usermod  -aG docker ${用户名}
 </code></pre>
-<p>##3.重启docker</p>
+<h2 id="3重启docker">3.重启docker</h2>
 <pre><code class="language-bash">sudo systemctl restart docker
 </code></pre>
-<p>#Docker-compose安装(建议使用方法一)<br>
-##方法一：源码安装</p>
+<h1 id="docker-compose安装建议使用方法一">Docker-compose安装(建议使用方法一)</h1>
+<h2 id="方法一源码安装">方法一：源码安装</h2>
 <pre><code class="language-bash">#自己在https://github.com/docker/compose/releases查看版本替换下面链接的版本号
 curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose
 
@@ -355,13 +620,13 @@ chmod +x /usr/local/bin/docker-compose
 #验证
 docker-compose --version
 </code></pre>
-<p>##方法二：pip安装</p>
+<h2 id="方法二pip安装">方法二：pip安装</h2>
 <pre><code class="language-bash">###安装python-pip
 yum -y install epel-release
 yum -y install python-pip   #若后续安装docker-compose失败，使用 yum -y install python3-pip
 pip install --upgrade pip
 </code></pre>
-<p>###安装docker-compose</p>
+<h3 id="安装docker-compose">安装docker-compose</h3>
 <pre><code class="language-bash">#若安装的是python-pip3,则此处命令为pip3 install docker-compose
 pip install docker-compose 
 

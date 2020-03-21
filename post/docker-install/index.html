@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584784281152">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584787467438">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -18,11 +18,11 @@
 
 
 
-    <meta name="description" content="#Docker安装
-##1.删除已安装的Docker
+    <meta name="description" content="Docker安装
+1.删除已安装的Docker
     sudo yum remove docker \\
                      docker-client \\
-                     dock..." />
+                     docker-..." />
     <meta name="keywords" content="docker" />
   </head>
   <body>
@@ -32,7 +32,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1584784281152" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1584787467438" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -74,8 +74,8 @@
             <div class="post-date">2020-03-21</div>
             
             <div class="post-content" v-pre>
-              <p>#Docker安装</p>
-<p>##1.删除已安装的Docker</p>
+              <h1 id="docker安装">Docker安装</h1>
+<h2 id="1删除已安装的docker">1.删除已安装的Docker</h2>
 <pre><code class="language-bash">    sudo yum remove docker \\
                      docker-client \\
                      docker-client-latest \\
@@ -87,24 +87,27 @@
                      docker-engine-selinux \\
                      docker-engine
 </code></pre>
-<p>##2.配置阿里云Docker Yum源</p>
+<h2 id="2配置阿里云docker-yum源">2.配置阿里云Docker Yum源</h2>
 <pre><code class="language-bash"> sudo yum install -y yum-utils device-mapper-persistent-data lvm2
  sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 </code></pre>
-<p>##3.安装指定版本<br>
-<code>bash yum list docker-ce --showduplicates</code><br>
-###3.1、安装较旧版本</p>
+<h2 id="3安装指定版本">3.安装指定版本</h2>
+<pre><code>```bash
+ yum list docker-ce --showduplicates
+```
+</code></pre>
+<h3 id="31-安装较旧版本">3.1、安装较旧版本</h3>
 <pre><code class="language-bash">      //注意：需要指定完整的rpm包的包名，并且加上--setopt=obsoletes=0 参数：
    yum install -y --setopt=obsoletes=0 \
   docker-ce-17.03.2.ce-1.el7.centos.x86_64 \
   docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch
   ```
-###3.2、安装Docker最新版本
+### 3.2、安装Docker最新版本
 ```bash
 sudo yum install docker-ce
 </code></pre>
-<p>##4.启用阿里云Docker镜像加速<br>
-https://cr.console.aliyun.com 自己申请账号，下面是我自己的</p>
+<h2 id="4启用阿里云docker镜像加速">4.启用阿里云Docker镜像加速</h2>
+<p>https://cr.console.aliyun.com 自己申请账号，下面是我自己的</p>
 <pre><code class="language-bash">sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
 {
@@ -112,26 +115,26 @@ sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
 }
 EOF
 </code></pre>
-<p>##5.启动Docker服务</p>
+<h2 id="5启动docker服务">5.启动Docker服务</h2>
 <pre><code class="language-bash">systemctl enable docker
 systemctl start docker
 </code></pre>
-<p>#Docker 用户组设置</p>
-<p>##1.创建docker用户组（正常来说docker安装后会自动有docker用户组）</p>
+<h1 id="docker-用户组设置">Docker 用户组设置</h1>
+<h2 id="1创建docker用户组正常来说docker安装后会自动有docker用户组">1.创建docker用户组（正常来说docker安装后会自动有docker用户组）</h2>
 <pre><code class="language-bash">sudo groupadd docker
 </code></pre>
-<p>##2.两步选一步<br>
-###2.1将当前用户添加进组</p>
+<h2 id="2两步选一步">2.两步选一步</h2>
+<h3 id="21将当前用户添加进组">2.1将当前用户添加进组</h3>
 <pre><code class="language-bash">sudo gpasswd -a ${USER} docker
 </code></pre>
-<p>###2.2添加指定用户进组</p>
+<h3 id="22添加指定用户进组">2.2添加指定用户进组</h3>
 <pre><code class="language-bash">sudo usermod  -aG docker ${用户名}
 </code></pre>
-<p>##3.重启docker</p>
+<h2 id="3重启docker">3.重启docker</h2>
 <pre><code class="language-bash">sudo systemctl restart docker
 </code></pre>
-<p>#Docker-compose安装(建议使用方法一)<br>
-##方法一：源码安装</p>
+<h1 id="docker-compose安装建议使用方法一">Docker-compose安装(建议使用方法一)</h1>
+<h2 id="方法一源码安装">方法一：源码安装</h2>
 <pre><code class="language-bash">#自己在https://github.com/docker/compose/releases查看版本替换下面链接的版本号
 curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose
 
@@ -140,13 +143,13 @@ chmod +x /usr/local/bin/docker-compose
 #验证
 docker-compose --version
 </code></pre>
-<p>##方法二：pip安装</p>
+<h2 id="方法二pip安装">方法二：pip安装</h2>
 <pre><code class="language-bash">###安装python-pip
 yum -y install epel-release
 yum -y install python-pip   #若后续安装docker-compose失败，使用 yum -y install python3-pip
 pip install --upgrade pip
 </code></pre>
-<p>###安装docker-compose</p>
+<h3 id="安装docker-compose">安装docker-compose</h3>
 <pre><code class="language-bash">#若安装的是python-pip3,则此处命令为pip3 install docker-compose
 pip install docker-compose 
 
