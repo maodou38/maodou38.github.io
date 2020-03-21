@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Docker常用命令 | 小丁的blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584797010369">
+<link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="查看 Docker 版本
+docker version
+从 Docker 文件构建 Docker 映像
+docker build -t image-name docker-file-location
+运行 Docker 映像
+docker ..." />
+    <meta name="keywords" content="docker" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://maodou38.github.io">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1584797010369" class="site-logo">
+        <h1 class="site-title">小丁的blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://maodou38.github.io" class="site-nav">
+            主页
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/maodou38">randing</a> | <a class="rss" href="https://maodou38.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Docker常用命令</h2>
+            <div class="post-date">2020-03-21</div>
+            
+              <div class="feature-container" style="background-image: url('https://maodou38.github.io/post-images/docker-code.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="查看-docker-版本">查看 Docker 版本</h1>
+<p><code>docker version</code></p>
+<h1 id="从-docker-文件构建-docker-映像">从 Docker 文件构建 Docker 映像</h1>
+<p><code>docker build -t image-name docker-file-location</code></p>
+<h1 id="运行-docker-映像">运行 Docker 映像</h1>
+<p><code>docker run -d image-name</code></p>
+<h1 id="查看可用的-docker-映像">查看可用的 Docker 映像</h1>
+<p><code>docker images</code></p>
+<h1 id="查看最近的运行容器">查看最近的运行容器</h1>
+<p><code>docker ps -l</code></p>
+<h1 id="查看所有正在运行的容器">查看所有正在运行的容器</h1>
+<p><code>docker ps -a</code></p>
+<h1 id="停止运行容器">停止运行容器</h1>
+<p><code>docker stop container_id</code></p>
+<h1 id="删除一个镜像">删除一个镜像</h1>
+<p><code>docker rmi image-name</code></p>
+<h1 id="删除所有镜像">删除所有镜像</h1>
+<p><code>docker rmi $(docker images -q)</code></p>
+<h1 id="强制删除所有镜像">强制删除所有镜像</h1>
+<p><code>docker rmi -r $(docker images -q)</code></p>
+<h1 id="删除所有虚悬镜像">删除所有虚悬镜像</h1>
+<p><code>docker rmi $(docker images -q -f dangling=true)</code></p>
+<h1 id="删除所有容器">删除所有容器</h1>
+<p><code>docker rm $(docker ps -a -q)</code></p>
+<h1 id="进入-docker-容器">进入 Docker 容器</h1>
+<p><code>docker exec -it container-id /bin/bash</code></p>
+<h1 id="查看所有数据卷">查看所有数据卷</h1>
+<p><code>docker volume ls</code></p>
+<h1 id="删除指定数据卷">删除指定数据卷</h1>
+<p><code>docker volume rm [volume_name]</code></p>
+<h1 id="删除所有未关联的数据卷">删除所有未关联的数据卷</h1>
+<p><code>docker volume rm $(docker volume ls -qf dangling=true)</code></p>
+<h1 id="从主机复制文件到容器">从主机复制文件到容器</h1>
+<p><code>sudo docker cp host_path containerID:container_path</code></p>
+<h1 id="从容器复制文件到主机">从容器复制文件到主机</h1>
+<p><code>sudo docker cp containerID:container_path host_path</code></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://maodou38.github.io/0uebfnyNe/" class="tag">
+                    docker
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://maodou38.github.io/gitlab-runner/">
+                  <h3 class="post-title">
+                    基于 Docker 安装 GitLab Runner及使用
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '17ec64f773b1afaef948',
+        clientSecret: '27224f5f2766e28963056872d67b6b477a06f19a',
+        repo: 'comment',
+        owner: 'maodou38',
+        admin: ['maodou38'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

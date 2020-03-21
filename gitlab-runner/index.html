@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>基于 Docker 安装 GitLab Runner及使用 | 小丁的blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584797010369">
+<link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="基于 Docker 安装 GitLab Runner
+环境准备
+
+创建工作目录 /usr/local/docker/runner
+创建构建目录 /usr/local/docker/runner/environment
+下载 jdk-8u15..." />
+    <meta name="keywords" content="docker" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://maodou38.github.io">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1584797010369" class="site-logo">
+        <h1 class="site-title">小丁的blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://maodou38.github.io" class="site-nav">
+            主页
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/maodou38">randing</a> | <a class="rss" href="https://maodou38.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">基于 Docker 安装 GitLab Runner及使用</h2>
+            <div class="post-date">2020-03-21</div>
+            
+              <div class="feature-container" style="background-image: url('https://maodou38.github.io/post-images/gitlab-runner.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="基于-docker-安装-gitlab-runner">基于 Docker 安装 GitLab Runner</h1>
+<h2 id="环境准备">环境准备</h2>
+<ul>
+<li>创建工作目录 /usr/local/docker/runner</li>
+<li>创建构建目录 /usr/local/docker/runner/environment</li>
+<li>下载 jdk-8u152-linux-x64.tar.gz 并复制到 /usr/local/docker/runner/environment</li>
+<li>下载 apache-maven-3.5.3-bin.tar.gz 并复制到 /usr/local/docker/runner/environment</li>
+</ul>
+<h2 id="daemonjson">daemon.json</h2>
+<p>在 /usr/local/docker/runner/environment 目录下创建 daemon.json，用于配置加速器和仓库地址</p>
+<pre><code class="language-json">{
+  &quot;registry-mirrors&quot;: [
+    &quot;https://registry.docker-cn.com&quot;
+  ],
+  &quot;insecure-registries&quot;: [
+    &quot;192.168.10.133:5000&quot;
+  ]
+}
+</code></pre>
+<h2 id="dockerfile">Dockerfile</h2>
+<p>在 /usr/local/docker/runner/environment 目录下创建 Dockerfile</p>
+<pre><code class="language-dockerfile">FROM gitlab/gitlab-runner
+MAINTAINER maodou38 &lt;maodoulove19950815@vip.qq.com&gt;
+
+# 修改软件源
+RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse' &gt; /etc/apt/sources.list &amp;&amp; \
+    echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse' &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+    echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse' &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+    echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse' &gt;&gt; /etc/apt/sources.list &amp;&amp; \
+    apt-get update -y &amp;&amp; \
+    apt-get clean
+
+# 安装 Docker
+RUN apt-get -y install apt-transport-https ca-certificates curl software-properties-common &amp;&amp; \
+    curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | apt-key add - &amp;&amp; \
+    add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable&quot; &amp;&amp; \
+    apt-get update -y &amp;&amp; \
+    apt-get install -y docker-ce
+COPY daemon.json /etc/docker/daemon.json
+
+# 安装 Docker Compose
+WORKDIR /usr/local/bin
+RUN wget https://raw.githubusercontent.com/topsale/resources/master/docker/docker-compose
+RUN chmod +x docker-compose
+
+# 安装 Java
+RUN mkdir -p /usr/local/java
+WORKDIR /usr/local/java
+COPY jdk-8u152-linux-x64.tar.gz /usr/local/java
+RUN tar -zxvf jdk-8u152-linux-x64.tar.gz &amp;&amp; \
+    rm -fr jdk-8u152-linux-x64.tar.gz
+
+# 安装 Maven
+RUN mkdir -p /usr/local/maven
+WORKDIR /usr/local/maven
+# RUN wget https://raw.githubusercontent.com/topsale/resources/master/maven/apache-maven-3.5.3-bin.tar.gz
+COPY apache-maven-3.5.3-bin.tar.gz /usr/local/maven
+RUN tar -zxvf apache-maven-3.5.3-bin.tar.gz &amp;&amp; \
+    rm -fr apache-maven-3.5.3-bin.tar.gz
+# COPY settings.xml /usr/local/maven/apache-maven-3.5.3/conf/settings.xml
+
+# 配置环境变量
+ENV JAVA_HOME /usr/local/java/jdk1.8.0_152
+ENV MAVEN_HOME /usr/local/maven/apache-maven-3.5.3
+ENV PATH $PATH:$JAVA_HOME/bin:$MAVEN_HOME/bin
+
+WORKDIR /
+</code></pre>
+<h2 id="docker-composeyml">docker-compose.yml</h2>
+<p>在 /usr/local/docker/runner 目录下创建 docker-compose.yml</p>
+<pre><code class="language-docker-compse">version: '3.1'
+services:
+  gitlab-runner:
+    build: environment
+    restart: always
+    container_name: gitlab-runner
+    privileged: true
+    volumes:
+      - ./config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+</code></pre>
+<h2 id="注册-runner">注册 Runner</h2>
+<pre><code class="language-docker">docker exec -it gitlab-runner gitlab-runner register
+
+# 输入 GitLab 地址
+Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):
+http://192.168.10.132/
+
+# 输入 GitLab Token
+Please enter the gitlab-ci token for this runner:
+1Lxq_f1NRfCfeNbE5WRh
+
+# 输入 Runner 的说明
+Please enter the gitlab-ci description for this runner:
+可以为空
+
+# 设置 Tag，可以用于指定在构建规定的 tag 时触发 ci
+Please enter the gitlab-ci tags for this runner (comma separated):
+deploy
+
+# 这里选择 true ，可以用于代码上传后直接执行
+Whether to run untagged builds [true/false]:
+true
+
+# 这里选择 false，可以直接回车，默认为 false
+Whether to lock Runner to current project [true/false]:
+false
+
+# 选择 runner 执行器，这里我们选择的是 shell
+Please enter the executor: virtualbox, docker+machine, parallels, shell, ssh, docker-ssh+machine, kubernetes, docker, docker-ssh:
+shell
+</code></pre>
+<h1 id="使用-runner">使用 Runner</h1>
+<h2 id="gitlab-ci-地址与令牌参数">GitLab CI 地址与令牌参数</h2>
+<p>项目 –&gt; 设置 –&gt; CI/CD –&gt; Runner 设置<br>
+<img src="https://maodou38.github.io/post-images/1584780166690.png" alt="" loading="lazy"></p>
+<h2 id="gitlab-ciyml">.gitlab-ci.yml</h2>
+<p>在项目工程下编写 .gitlab-ci.yml 配置文件：</p>
+<pre><code>stages:
+  - install_deps
+  - test
+  - build
+  - deploy_test
+  - deploy_production
+
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+    - dist/
+
+# 安装依赖
+install_deps:
+  stage: install_deps
+  only:
+    - develop
+    - master
+  script:
+    - npm install
+
+# 运行测试用例
+test:
+  stage: test
+  only:
+    - develop
+    - master
+  script:
+    - npm run test
+
+# 编译
+build:
+  stage: build
+  only:
+    - develop
+    - master
+  script:
+    - npm run clean
+    - npm run build:client
+    - npm run build:server
+
+# 部署测试服务器
+deploy_test:
+  stage: deploy_test
+  only:
+    - develop
+  script:
+    - pm2 delete app || true
+    - pm2 start app.js --name app
+
+# 部署生产服务器
+deploy_production:
+  stage: deploy_production
+  only:
+    - master
+  script:
+    - bash scripts/deploy/deploy.sh
+</code></pre>
+<p>上面的配置把一次 Pipeline 分成五个阶段：</p>
+<ul>
+<li>安装依赖(install_deps)</li>
+<li>运行测试(test)</li>
+<li>编译(build)</li>
+<li>部署测试服务器(deploy_test)</li>
+<li>部署生产服务器(deploy_production)</li>
+</ul>
+<p>注意： 设置 Job.only 后，只有当 develop 分支和 master 分支有提交的时候才会触发相关的 Jobs。<br>
+节点说明：</p>
+<ul>
+<li>stages：定义构建阶段，这里只有一个阶段 deploy</li>
+<li>deploy：构建阶段 deploy 的详细配置也就是任务配置</li>
+<li>script：需要执行的 shell 脚本</li>
+<li>only：这里的 master 指在提交到 master 时执行</li>
+<li>tags：与注册 runner 时的 tag 匹配</li>
+</ul>
+<h1 id="其它命令">其它命令</h1>
+<ul>
+<li>删除注册信息<br>
+<code>gitlab-ci-multi-runner unregister --name &quot;名称&quot;</code></li>
+<li>查看注册列表<br>
+<code>gitlab-ci-multi-runner list</code></li>
+</ul>
+<h1 id="dockerfile示例">Dockerfile示例</h1>
+<pre><code>    FROM openjdk:8-jre
+
+MAINTAINER maodou38 &lt;maodoulove19950815@vip.qq.com&gt;
+
+ENV APP_VERSION 1.0.0-SNAPSHOT
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    &amp;&amp; tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    &amp;&amp; rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+RUN mkdir /app
+
+COPY myshop-service-user-provider-$APP_VERSION.jar /app/app.jar
+ENTRYPOINT [&quot;dockerize&quot;, &quot;-timeout&quot;, &quot;5m&quot;, &quot;-wait&quot;, &quot;tcp://192.168.10.131:3306&quot;, &quot;java&quot;, &quot;-Djava.security.egd=file:/dev/./urandom&quot;, &quot;-jar&quot;, &quot;/app/app.jar&quot;]
+
+EXPOSE 8501
+</code></pre>
+<ul>
+<li>DOCKERIZE是一个监听插件，监听依赖服务是否启动</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://maodou38.github.io/0uebfnyNe/" class="tag">
+                    docker
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://maodou38.github.io/docker-install/">
+                  <h3 class="post-title">
+                    centos 安装docker及docker-compose
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '17ec64f773b1afaef948',
+        clientSecret: '27224f5f2766e28963056872d67b6b477a06f19a',
+        repo: 'comment',
+        owner: 'maodou38',
+        admin: ['maodou38'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
