@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584797335187">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584844960823">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -24,9 +24,15 @@
 
 
 
-    <meta name="description" content="模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 docker run 相关参数的含义都是类似的。
-默认的模板文件名称为 docker-compose.yml，格式为 YAML 格式。
-..." />
+    <meta name="description" content="常用docker-compose.yml整理
+
+Tomcat
+Mysql5
+Mysql8
+
+
+
+模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 docker run 相关参数的含义都是..." />
     <meta name="keywords" content="docker-compose" />
   </head>
   <body>
@@ -36,7 +42,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1584797335187" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1584844960823" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -101,7 +107,15 @@
               </div>
             
             <div class="post-content" v-pre>
-              <p>模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 docker run 相关参数的含义都是类似的。</p>
+              <h1 id="常用docker-composeyml整理">常用docker-compose.yml整理</h1>
+<ul>
+<li><a href="#Tomcat">Tomcat</a></li>
+<li><a href="#Mysql5">Mysql5</a></li>
+<li><a href="#Mysql8">Mysql8</a></li>
+</ul>
+<br/>
+<br/>
+模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 docker run 相关参数的含义都是类似的。
 <p>默认的模板文件名称为 docker-compose.yml，格式为 YAML 格式。</p>
 <pre><code>version: &quot;3&quot;
 
@@ -451,6 +465,70 @@ db:
 MONGO_VERSION=3.6
 </code></pre>
 <p>执行 docker-compose up 则会启动一个 mongo:3.6 镜像的容器。</p>
+<h1 id="tomcat">Tomcat</h1>
+<pre><code>version: '3.1'
+services:
+  tomcat:
+    restart: always
+    image: tomcat
+    container_name: tomcat
+    ports:
+      - 8080:8080
+    volumes:
+      - /usr/local/docker/tomcat/webapps/test:/usr/local/tomcat/webapps/test
+    environment:
+      TZ: Asia/Shanghai
+</code></pre>
+<h1 id="mysql5">Mysql5</h1>
+<pre><code>version: '3.1'
+services:
+  mysql:
+    restart: always
+    image: mysql:5.7.22
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 123456
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M
+      --sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO&quot;
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+</code></pre>
+<h1 id="mysql8">Mysql8</h1>
+<pre><code>version: '3.1'
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+</code></pre>
 
             </div>
             
