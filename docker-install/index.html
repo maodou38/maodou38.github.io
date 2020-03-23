@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584930532866">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1584968706696">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -26,9 +26,9 @@
 
     <meta name="description" content="Docker安装
 1.删除已安装的Docker
-    sudo yum remove docker \\
-                     docker-client \\
-                     docker-..." />
+    sudo yum remove docker \
+                     docker-client \
+                     docker-cl..." />
     <meta name="keywords" content="docker" />
   </head>
   <body>
@@ -38,7 +38,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1584930532866" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1584968706696" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -105,15 +105,15 @@
             <div class="post-content" v-pre>
               <h1 id="docker安装">Docker安装</h1>
 <h2 id="1删除已安装的docker">1.删除已安装的Docker</h2>
-<pre><code class="language-bash">    sudo yum remove docker \\
-                     docker-client \\
-                     docker-client-latest \\
-                     docker-common \\
-                     docker-latest \\
-                     docker-latest-logrotate \\
-                     docker-logrotate \\
-                     docker-selinux \\
-                     docker-engine-selinux \\
+<pre><code class="language-bash">    sudo yum remove docker \
+                     docker-client \
+                     docker-client-latest \
+                     docker-common \
+                     docker-latest \
+                     docker-latest-logrotate \
+                     docker-logrotate \
+                     docker-selinux \
+                     docker-engine-selinux \
                      docker-engine
 </code></pre>
 <h2 id="2配置阿里云docker-yum源">2.配置阿里云Docker Yum源</h2>
@@ -121,9 +121,7 @@
  sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 </code></pre>
 <h2 id="3安装指定版本">3.安装指定版本</h2>
-<pre><code>```bash
- yum list docker-ce --showduplicates
-```
+<pre><code class="language-bash">     yum list docker-ce --showduplicates
 </code></pre>
 <h3 id="31-安装较旧版本">3.1、安装较旧版本</h3>
 <pre><code class="language-bash">      //注意：需要指定完整的rpm包的包名，并且加上--setopt=obsoletes=0 参数：
@@ -131,7 +129,9 @@
   docker-ce-17.03.2.ce-1.el7.centos.x86_64 \
   docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch
   ```
+
 ### 3.2、安装Docker最新版本
+
 ```bash
 sudo yum install docker-ce
 </code></pre>
@@ -140,7 +140,7 @@ sudo yum install docker-ce
 <pre><code class="language-bash">sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
 {
-  &quot;registry-mirrors&quot;: [&quot;https://registry.cn-shanghai.aliyuncs.com/ding_docker_registry/ding_docker_registry&quot;]
+  &quot;registry-mirrors&quot;: [&quot;https://a0cmmvhl.mirror.aliyuncs.com&quot;]
 }
 EOF
 </code></pre>
