@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://maodou38.github.io</id>
+    <id>http://localhost:4000</id>
     <title>小丁的blog</title>
-    <updated>2020-03-22T14:16:35.434Z</updated>
+    <updated>2020-03-22T14:16:40.128Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://maodou38.github.io"/>
-    <link rel="self" href="https://maodou38.github.io/atom.xml"/>
+    <link rel="alternate" href="http://localhost:4000"/>
+    <link rel="self" href="http://localhost:4000/atom.xml"/>
     <subtitle>&lt;div&gt;&lt;span&gt;在技术的道路上慢慢找寻自我的价值&lt;/span&gt;
                                              &lt;span class=&quot;rt&quot;&gt;  ———小丁 
    &lt;/span&gt;&lt;/div&gt;</subtitle>
-    <logo>https://maodou38.github.io/images/avatar.png</logo>
-    <icon>https://maodou38.github.io/favicon.ico</icon>
+    <logo>http://localhost:4000/images/avatar.png</logo>
+    <icon>http://localhost:4000/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
     <entry>
         <title type="html"><![CDATA[Docker Compose 模板文件]]></title>
-        <id>https://maodou38.github.io/docker-compose-yml/</id>
-        <link href="https://maodou38.github.io/docker-compose-yml/">
+        <id>http://localhost:4000/docker-compose-yml/</id>
+        <link href="http://localhost:4000/docker-compose-yml/">
         </link>
         <updated>2020-03-21T12:52:43.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Dockerfile 指令]]></title>
-        <id>https://maodou38.github.io/dockerfile-code/</id>
-        <link href="https://maodou38.github.io/dockerfile-code/">
+        <id>http://localhost:4000/dockerfile-code/</id>
+        <link href="http://localhost:4000/dockerfile-code/">
         </link>
         <updated>2020-03-21T09:55:53.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker常用命令]]></title>
-        <id>https://maodou38.github.io/docker-code/</id>
-        <link href="https://maodou38.github.io/docker-code/">
+        <id>http://localhost:4000/docker-code/</id>
+        <link href="http://localhost:4000/docker-code/">
         </link>
         <updated>2020-03-21T09:45:56.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[基于 Docker 安装 GitLab Runner及使用]]></title>
-        <id>https://maodou38.github.io/gitlab-runner/</id>
-        <link href="https://maodou38.github.io/gitlab-runner/">
+        <id>http://localhost:4000/gitlab-runner/</id>
+        <link href="http://localhost:4000/gitlab-runner/">
         </link>
         <updated>2020-03-21T08:31:59.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[centos 安装docker及docker-compose]]></title>
-        <id>https://maodou38.github.io/docker-install/</id>
-        <link href="https://maodou38.github.io/docker-install/">
+        <id>http://localhost:4000/docker-install/</id>
+        <link href="http://localhost:4000/docker-install/">
         </link>
         <updated>2020-03-21T07:48:52.000Z</updated>
     </entry>
