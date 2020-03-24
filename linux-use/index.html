@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Docker常用命令 | 小丁的blog</title>
+<title>Linux日常操作 | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -24,13 +24,20 @@
 
 
 
-    <meta name="description" content="查看 Docker 版本
-docker version
-从 Docker 文件构建 Docker 映像
-docker build -t image-name docker-file-location
-运行 Docker 映像
-docker ..." />
-    <meta name="keywords" content="docker" />
+    <meta name="description" content="#目录
+
+修改SSH默认端口
+
+修改SSH默认端口
+1 修改端口
+ vi /etc/ssh/sshd_config
+ #找到Port XX 修改为自己想要的端口
+
+   
+2 防火墙放行
+#修改XXX为上面修改后端口
+firewall-cm..." />
+    <meta name="keywords" content="Linux" />
   </head>
   <body>
     <div id="app" class="main">
@@ -97,56 +104,52 @@ docker ..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Docker常用命令</h2>
-            <div class="post-date">2020-03-21</div>
-            
-              <div class="feature-container" style="background-image: url('https://maodou38.github.io/post-images/docker-code.jpg')">
-              </div>
+            <h2 class="post-title">Linux日常操作</h2>
+            <div class="post-date">2020-03-24</div>
             
             <div class="post-content" v-pre>
-              <h1 id="查看-docker-版本">查看 Docker 版本</h1>
-<p><code>docker version</code></p>
-<h1 id="从-docker-文件构建-docker-映像">从 Docker 文件构建 Docker 映像</h1>
-<p><code>docker build -t image-name docker-file-location</code></p>
-<h1 id="运行-docker-映像">运行 Docker 映像</h1>
-<p><code>docker run -d image-name</code></p>
-<h1 id="查看可用的-docker-映像">查看可用的 Docker 映像</h1>
-<p><code>docker images</code></p>
-<h1 id="查看最近的运行容器">查看最近的运行容器</h1>
-<p><code>docker ps -l</code></p>
-<h1 id="查看所有正在运行的容器">查看所有正在运行的容器</h1>
-<p><code>docker ps -a</code></p>
-<h1 id="停止运行容器">停止运行容器</h1>
-<p><code>docker stop container_id</code></p>
-<h1 id="删除一个镜像">删除一个镜像</h1>
-<p><code>docker rmi image-name</code></p>
-<h1 id="删除所有镜像">删除所有镜像</h1>
-<p><code>docker rmi $(docker images -q)</code></p>
-<h1 id="强制删除所有镜像">强制删除所有镜像</h1>
-<p><code>docker rmi -r $(docker images -q)</code></p>
-<h1 id="删除所有虚悬镜像">删除所有虚悬镜像</h1>
-<p><code>docker rmi $(docker images -q -f dangling=true)</code></p>
-<h1 id="删除所有容器">删除所有容器</h1>
-<p><code>docker rm $(docker ps -a -q)</code></p>
-<h1 id="进入-docker-容器">进入 Docker 容器</h1>
-<p><code>docker exec -it container-id /bin/bash</code></p>
-<h1 id="查看所有数据卷">查看所有数据卷</h1>
-<p><code>docker volume ls</code></p>
-<h1 id="删除指定数据卷">删除指定数据卷</h1>
-<p><code>docker volume rm [volume_name]</code></p>
-<h1 id="删除所有未关联的数据卷">删除所有未关联的数据卷</h1>
-<p><code>docker volume rm $(docker volume ls -qf dangling=true)</code></p>
-<h1 id="从主机复制文件到容器">从主机复制文件到容器</h1>
-<p><code>sudo docker cp host_path containerID:container_path</code></p>
-<h1 id="从容器复制文件到主机">从容器复制文件到主机</h1>
-<p><code>sudo docker cp containerID:container_path host_path</code></p>
+              <p>#目录</p>
+<ul>
+<li><a href="#%E4%BF%AE%E6%94%B9ssh%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3">修改SSH默认端口</a></li>
+</ul>
+<h1 id="修改ssh默认端口">修改SSH默认端口</h1>
+<h2 id="1-修改端口">1 修改端口</h2>
+<pre><code> vi /etc/ssh/sshd_config
+ #找到Port XX 修改为自己想要的端口
+</code></pre>
+ <br/>  
+<h2 id="2-防火墙放行">2 防火墙放行</h2>
+<pre><code>#修改XXX为上面修改后端口
+firewall-cmd --zone=public --add-port=XXX/tcp --permanent
+# 刷新防火墙规则
+firewall-cmd --reload
+#查看是否生效
+firewall-cmd --zone=public --query-port=XXX/tcp
+</code></pre>
+ <br/>  
+<h2 id="3-selinux放行">3 SELinux放行</h2>
+<pre><code>#检查semanage是否安装
+rpm -qa |grep policycoreutils-python
+   #安装
+   yum install policycoreutils-python
+#查看当前SSH允许端口
+semanage port -l |grep ssh
+#添加新端口
+semanage port -a -t ssh_port_t -p tcp XXX
+#检查是否添加成功
+semanage port -l |grep ssh
+</code></pre>
+<br/>  
+<h2 id="4-重启ssh服务">4 重启SSH服务</h2>
+<pre><code>systemctl restart sshd.service
+</code></pre>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://maodou38.github.io/0uebfnyNe/" class="tag">
-                    docker
+                  <a href="https://maodou38.github.io/dspM4EPE_/" class="tag">
+                    Linux
                   </a>
                 
               </div>
@@ -154,9 +157,9 @@ docker ..." />
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://maodou38.github.io/gitlab-runner/">
+                <a href="https://maodou38.github.io/docker-compose-yml/">
                   <h3 class="post-title">
-                    基于 Docker 安装 GitLab Runner及使用
+                    Docker Compose 模板文件
                   </h3>
                 </a>
               </div>
