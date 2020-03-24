@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585026080555">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585043098545">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -27,6 +27,7 @@
     <meta name="description" content="#目录
 
 修改SSH默认端口
+开启BBR
 
 修改SSH默认端口
 1 修改端口
@@ -36,7 +37,7 @@
    
 2 防火墙放行
 #修改XXX为上面修改后端口
-firewall-cm..." />
+firew..." />
     <meta name="keywords" content="Linux" />
   </head>
   <body>
@@ -46,7 +47,7 @@ firewall-cm..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1585026080555" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1585043098545" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -111,6 +112,7 @@ firewall-cm..." />
               <p>#目录</p>
 <ul>
 <li><a href="#%E4%BF%AE%E6%94%B9ssh%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3">修改SSH默认端口</a></li>
+<li><a href="#%E5%BC%80%E5%90%AFBBR">开启BBR</a></li>
 </ul>
 <h1 id="修改ssh默认端口">修改SSH默认端口</h1>
 <h2 id="1-修改端口">1 修改端口</h2>
@@ -143,7 +145,14 @@ semanage port -l |grep ssh
 <h2 id="4-重启ssh服务">4 重启SSH服务</h2>
 <pre><code>systemctl restart sshd.service
 </code></pre>
-
+<br/>
+<br/>
+<br/>
+<br/>
+# 开启BBR
+```
+curl -O https://raw.githubusercontent.com/teddysun/across/master/bbr.sh && sh bbr.sh
+```
             </div>
             
               <div class="tag-container">
