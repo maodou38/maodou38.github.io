@@ -2,13 +2,14 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-03-24T12:30:24.300Z</updated>
+    <updated>2020-03-25T05:37:49.774Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
     <subtitle>&lt;div&gt;&lt;span&gt;在技术的道路上慢慢找寻自我的价值&lt;/span&gt;
                                              &lt;span class=&quot;rt&quot;&gt;  ———小丁 
-   &lt;/span&gt;&lt;/div&gt;</subtitle>
+   &lt;/span&gt;&lt;/div&gt;
+&lt;embed src=&quot;http://music.163.com/song/media/outer/url?id=1411358329&quot; hidden=&quot;true&quot; autostart=&quot;true&quot; loop=&quot;true&quot;&gt;&lt;/embed&gt;</subtitle>
     <logo>https://maodou38.github.io/images/avatar.png</logo>
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
