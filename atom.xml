@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-03-26T07:35:48.967Z</updated>
+    <updated>2020-03-26T07:40:03.444Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -12,6 +12,13 @@
     <logo>https://maodou38.github.io/images/avatar.png</logo>
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
+    <entry>
+        <title type="html"><![CDATA[各种pyton资源地址整理]]></title>
+        <id>https://maodou38.github.io/useful-urls/</id>
+        <link href="https://maodou38.github.io/useful-urls/">
+        </link>
+        <updated>2020-03-26T07:38:04.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Linux日常操作]]></title>
         <id>https://maodou38.github.io/linux-use/</id>
@@ -39,12 +46,5 @@
         <link href="https://maodou38.github.io/docker-code/">
         </link>
         <updated>2020-03-21T09:45:56.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[基于 Docker 安装 GitLab Runner及使用]]></title>
-        <id>https://maodou38.github.io/gitlab-runner/</id>
-        <link href="https://maodou38.github.io/gitlab-runner/">
-        </link>
-        <updated>2020-03-21T08:31:59.000Z</updated>
     </entry>
 </feed>
