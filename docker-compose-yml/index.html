@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585282907875">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585283229235">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -44,7 +44,7 @@ Redis高可用监控
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1585282907875" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1585283229235" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -115,7 +115,7 @@ Redis高可用监控
 <li><a href="#mysql5">Mysql5</a></li>
 <li><a href="#mysql8">Mysql8</a></li>
 <li><a href="#redis%E9%9B%86%E7%BE%A4">Redis集群</a></li>
-<li><a href="#sentinel_%E9%9B%86%E7%BE%A4">Redis高可用监控</a></li>
+<li><a href="#sentinel%E9%9B%86%E7%BE%A4">Redis高可用监控</a></li>
 </ul>
 <br/>
 <br/>
@@ -556,7 +556,7 @@ services:
       - 6381:6379
     command: redis-server --slaveof redis-master 6379
 </code></pre>
-<h1 id="sentinel-集群">Sentinel 集群</h1>
+<h1 id="sentinel集群">Sentinel集群</h1>
 <pre><code>version: '3.1'
 services:
   sentinel1:
