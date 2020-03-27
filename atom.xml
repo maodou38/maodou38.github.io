@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-03-27T08:59:58.069Z</updated>
+    <updated>2020-03-27T09:21:37.886Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -12,6 +12,13 @@
     <logo>https://maodou38.github.io/images/avatar.png</logo>
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
+    <entry>
+        <title type="html"><![CDATA[使用swagger接口文档引擎]]></title>
+        <id>https://maodou38.github.io/swagger-use/</id>
+        <link href="https://maodou38.github.io/swagger-use/">
+        </link>
+        <updated>2020-03-27T09:17:55.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[SpringBoot——Mybatis配置Redis二级缓存]]></title>
         <id>https://maodou38.github.io/mybatis-redis-cache/</id>
@@ -39,12 +46,5 @@
         <link href="https://maodou38.github.io/docker-compose-yml/">
         </link>
         <updated>2020-03-21T12:52:43.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Dockerfile 指令]]></title>
-        <id>https://maodou38.github.io/dockerfile-code/</id>
-        <link href="https://maodou38.github.io/dockerfile-code/">
-        </link>
-        <updated>2020-03-21T09:55:53.000Z</updated>
     </entry>
 </feed>

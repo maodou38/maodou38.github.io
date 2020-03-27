@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>使用swagger接口文档引擎 | 小丁的blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585300894485">
+<link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Maven
+增加 Swagger2 所需依赖，pom.xml 配置如下：
+&lt;!-- Swagger2 Begin --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt..." />
+    <meta name="keywords" content="Java" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://maodou38.github.io">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1585300894485" class="site-logo">
+        <h1 class="site-title">小丁的blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://maodou38.github.io" class="site-nav">
+            主页
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      <div><span>在技术的道路上慢慢找寻自我的价值</span>
+                                             <span class="rt">  ———小丁 
+   </span></div>
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/maodou38">randing</a> | <a class="rss" href="https://maodou38.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">使用swagger接口文档引擎</h2>
+            <div class="post-date">2020-03-27</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="maven">Maven</h1>
+<p>增加 Swagger2 所需依赖，pom.xml 配置如下：</p>
+<pre><code>&lt;!-- Swagger2 Begin --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;
+    &lt;version&gt;2.8.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;
+    &lt;version&gt;2.8.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- Swagger2 End --&gt;
+</code></pre>
+<h1 id="配置-swagger2">配置 Swagger2</h1>
+<p>注意：RequestHandlerSelectors.basePackage(&quot;ran.ding.service.admin.controller&quot;) 为 Controller 包路径，不然生成的文档扫描不到接口</p>
+<p>创建一个名为 Swagger2Config 的 Java 配置类，代码如下：</p>
+<pre><code>package ran.ding.service.admin.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
+@Configuration
+public class Swagger2Config {
+    @Bean
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(&quot;com.funtl.itoken.service.admin.controller&quot;))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title(&quot;iToken API 文档&quot;)
+                .description(&quot;iToken API 网关接口，http://www.funtl.com&quot;)
+                .termsOfServiceUrl(&quot;http://www.funtl.com&quot;)
+                .version(&quot;1.0.0&quot;)
+                .build();
+    }
+}
+</code></pre>
+<h1 id="启用-swagger2">启用 Swagger2</h1>
+<p>Application 中加上注解 @EnableSwagger2 表示开启 Swagger</p>
+<pre><code>package ran.ding.service.admin;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import tk.mybatis.spring.annotation.MapperScan;
+
+@SpringBootApplication(scanBasePackages = &quot;com.funtl.itoken&quot;)
+@EnableEurekaClient
+@EnableSwagger2
+@MapperScan(basePackages = {&quot;com.funtl.itoken.common.mapper&quot;, &quot;com.funtl.itoken.service.admin.mapper&quot;})
+public class ServiceAdminApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceAdminApplication.class, args);
+    }
+}
+</code></pre>
+<h1 id="使用-swagger2">使用 Swagger2</h1>
+<p>在 Controller 中增加 Swagger2 相关注解，代码如下：</p>
+<pre><code>/**
+ * 分页查询
+ *
+ * @param pageNum
+ * @param pageSize
+ * @param tbSysUserJson
+ * @return
+ */
+@ApiOperation(value = &quot;管理员分页查询&quot;)
+@ApiImplicitParams({
+        @ApiImplicitParam(name = &quot;pageNum&quot;, value = &quot;页码&quot;, required = true, dataType = &quot;int&quot;, paramType = &quot;path&quot;),
+        @ApiImplicitParam(name = &quot;pageSize&quot;, value = &quot;笔数&quot;, required = true, dataType = &quot;int&quot;, paramType = &quot;path&quot;),
+        @ApiImplicitParam(name = &quot;tbSysUserJson&quot;, value = &quot;管理员对象 JSON 字符串&quot;, required = false, dataTypeClass = String.class, paramType = &quot;json&quot;)
+})
+@RequestMapping(value = &quot;page/{pageNum}/{pageSize}&quot;, method = RequestMethod.GET)
+public BaseResult page(
+        @PathVariable(required = true) int pageNum,
+        @PathVariable(required = true) int pageSize,
+        @RequestParam(required = false) String tbSysUserJson
+) throws Exception {
+
+    TbSysUser tbSysUser = null;
+    if (tbSysUserJson != null) {
+        tbSysUser = MapperUtils.json2pojo(tbSysUserJson, TbSysUser.class);
+    }
+    PageInfo pageInfo = adminService.page(pageNum, pageSize, tbSysUser);
+
+    // 分页后的结果集
+    List&lt;TbSysUser&gt; list = pageInfo.getList();
+
+    // 封装 Cursor 对象
+    BaseResult.Cursor cursor = new BaseResult.Cursor();
+    cursor.setTotal(new Long(pageInfo.getTotal()).intValue());
+    cursor.setOffset(pageInfo.getPageNum());
+    cursor.setLimit(pageInfo.getPageSize());
+
+    return BaseResult.ok(list, cursor);
+}
+</code></pre>
+<h1 id="swagger-注解说明">Swagger 注解说明</h1>
+<p>Swagger 通过注解表明该接口会生成文档，包括接口名、请求方法、参数、返回信息的等等。</p>
+<p>@Api：修饰整个类，描述 Controller 的作用<br>
+@ApiOperation：描述一个类的一个方法，或者说一个接口<br>
+@ApiParam：单个参数描述<br>
+@ApiModel：用对象来接收参数<br>
+@ApiProperty：用对象接收参数时，描述对象的一个字段<br>
+@ApiResponse：HTTP 响应其中 1 个描述<br>
+@ApiResponses：HTTP 响应整体描述<br>
+@ApiIgnore：使用该注解忽略这个API<br>
+@ApiError：发生错误返回的信息<br>
+@ApiImplicitParam：一个请求参数<br>
+@ApiImplicitParams：多个请求参数</p>
+<h1 id="访问-swagger2">访问 Swagger2</h1>
+<p>访问地址：http://ip:port/swagger-ui.html<br>
+<img src="https://maodou38.github.io/post-images/1585300863188.png" alt="" loading="lazy"></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://maodou38.github.io/rEjH4-Bi46/" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://maodou38.github.io/mybatis-redis-cache/">
+                  <h3 class="post-title">
+                    SpringBoot——Mybatis配置Redis二级缓存
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '17ec64f773b1afaef948',
+        clientSecret: '27224f5f2766e28963056872d67b6b477a06f19a',
+        repo: 'comment',
+        owner: 'maodou38',
+        admin: ['maodou38'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
