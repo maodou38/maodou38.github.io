@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Linux日常操作 | 小丁的blog</title>
+<title>SpringBoot2.X整合 | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -24,21 +24,12 @@
 
 
 
-    <meta name="description" content="#目录
-
-修改SSH默认端口
-开启BBR
-
-修改SSH默认端口
-1 修改端口
- vi /etc/ssh/sshd_config
- #找到Port XX 修改为自己想要的端口
-
-   
-2 防火墙放行
-#修改XXX为上面修改后端口
-firew..." />
-    <meta name="keywords" content="Linux" />
+    <meta name="description" content="整合redis
+依赖
+&lt;!-- spring boot redis 缓存引入 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/grou..." />
+    <meta name="keywords" content="springboot" />
   </head>
   <body>
     <div id="app" class="main">
@@ -105,60 +96,61 @@ firew..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Linux日常操作</h2>
-            <div class="post-date">2020-03-24</div>
+            <h2 class="post-title">SpringBoot2.X整合</h2>
+            <div class="post-date">2020-03-27</div>
             
             <div class="post-content" v-pre>
-              <p>#目录</p>
-<ul>
-<li><a href="#%E4%BF%AE%E6%94%B9ssh%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3">修改SSH默认端口</a></li>
-<li><a href="#%E5%BC%80%E5%90%AFBBR">开启BBR</a></li>
-</ul>
-<h1 id="修改ssh默认端口">修改SSH默认端口</h1>
-<h2 id="1-修改端口">1 修改端口</h2>
-<pre><code> vi /etc/ssh/sshd_config
- #找到Port XX 修改为自己想要的端口
+              <h1 id="整合redis">整合redis</h1>
+<h2 id="依赖">依赖</h2>
+<pre><code>&lt;!-- spring boot redis 缓存引入 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;!-- lettuce pool 缓存连接池 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
+&lt;/dependency&gt;
 </code></pre>
- <br/>  
-<h2 id="2-防火墙放行">2 防火墙放行</h2>
-<pre><code>#修改XXX为上面修改后端口
-firewall-cmd --zone=public --add-port=XXX/tcp --permanent
-# 刷新防火墙规则
-firewall-cmd --reload
-#查看是否生效
-firewall-cmd --zone=public --query-port=XXX/tcp
+<h2 id="applicationproperties配置文件">application.properties配置文件</h2>
+<pre><code># Redis数据库索引（默认为0）
+spring.redis.database=0  
+# Redis服务器地址
+spring.redis.host=localhost
+# Redis服务器连接端口
+spring.redis.port=6379  
+# Redis服务器连接密码（默认为空）
+spring.redis.password=
+# 连接池最大连接数（使用负值表示没有限制） 默认 8
+spring.redis.lettuce.pool.max-active=8
+# 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+spring.redis.lettuce.pool.max-wait=-1
+# 连接池中的最大空闲连接 默认 8
+spring.redis.lettuce.pool.max-idle=8
 </code></pre>
- <br/>  
-<h2 id="3-selinux放行">3 SELinux放行</h2>
-<pre><code>#检查semanage是否安装
-rpm -qa |grep policycoreutils-python
-   #安装
-   yum install policycoreutils-python
-#查看当前SSH允许端口
-semanage port -l |grep ssh
-#添加新端口
-semanage port -a -t ssh_port_t -p tcp XXX
-#检查是否添加成功
-semanage port -l |grep ssh
-</code></pre>
-<br/>  
-<h2 id="4-重启ssh服务">4 重启SSH服务</h2>
-<pre><code>systemctl restart sshd.service
-</code></pre>
-<br/>
-<br/>
-<br/>
-<br/>  
-<h1 id="开启bbr">开启BBR</h1>
-<pre><code>curl -O https://raw.githubusercontent.com/teddysun/across/master/bbr.sh &amp;&amp; sh bbr.sh
+<h2 id="新建config包创建redisconfig类">新建config包，创建RedisConfig类</h2>
+<p>默认情况下RedisTemplate模板只能支持字符串，我们自定义一个RedisTemplate，设置序列化器，这样我们可以很方便的操作实例对象。</p>
+<pre><code>@Configuration
+public class RedisConfig {
+    @Bean
+    public RedisTemplate&lt;String, Serializable&gt; 
+            redisTemplate(LettuceConnectionFactory connectionFactory) {
+        RedisTemplate&lt;String, Serializable&gt; redisTemplate = new RedisTemplate&lt;&gt;();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setConnectionFactory(connectionFactory);
+        return redisTemplate;
+    }
+}
 </code></pre>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://maodou38.github.io/dspM4EPE_/" class="tag">
-                    Linux
+                  <a href="https://maodou38.github.io/bk1AeQmzB/" class="tag">
+                    springboot
                   </a>
                 
               </div>
@@ -166,9 +158,9 @@ semanage port -l |grep ssh
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://maodou38.github.io/docker-compose-yml/">
+                <a href="https://maodou38.github.io/swagger-use/">
                   <h3 class="post-title">
-                    Docker Compose 模板文件
+                    使用swagger接口文档引擎
                   </h3>
                 </a>
               </div>
