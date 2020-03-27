@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585282568395">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585282907875">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -30,10 +30,11 @@ Tomcat
 Mysql5
 Mysql8
 Redis集群
+Redis高可用监控
 
 
 
-模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 docker run 相..." />
+模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 d..." />
     <meta name="keywords" content="docker-compose" />
   </head>
   <body>
@@ -43,7 +44,7 @@ Redis集群
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1585282568395" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1585282907875" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -114,6 +115,7 @@ Redis集群
 <li><a href="#mysql5">Mysql5</a></li>
 <li><a href="#mysql8">Mysql8</a></li>
 <li><a href="#redis%E9%9B%86%E7%BE%A4">Redis集群</a></li>
+<li><a href="#sentinel_%E9%9B%86%E7%BE%A4">Redis高可用监控</a></li>
 </ul>
 <br/>
 <br/>
@@ -531,7 +533,7 @@ services:
     ports:
       - 8080:8080
 </code></pre>
-<p>#Redis集群</p>
+<h1 id="redis集群">Redis集群</h1>
 <pre><code>version: '3.1'
 services:
   master:
@@ -553,6 +555,46 @@ services:
     ports:
       - 6381:6379
     command: redis-server --slaveof redis-master 6379
+</code></pre>
+<h1 id="sentinel-集群">Sentinel 集群</h1>
+<pre><code>version: '3.1'
+services:
+  sentinel1:
+    image: redis
+    container_name: redis-sentinel-1
+    ports:
+      - 26379:26379
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+
+  sentinel2:
+    image: redis
+    container_name: redis-sentinel-2
+    ports:
+      - 26380:26379
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel2.conf:/usr/local/etc/redis/sentinel.conf
+
+  sentinel3:
+    image: redis
+    container_name: redis-sentinel-3
+    ports:
+      - 26381:26379
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel3.conf:/usr/local/etc/redis/sentinel.conf
+</code></pre>
+<p>修改 Sentinel 配置文件</p>
+<pre><code>port 26379
+dir /tmp
+# 自定义集群名，其中 127.0.0.1 为 redis-master 的 ip，6379 为 redis-master 的端口，2 为最小投票数（因为有 3 台 Sentinel 所以可以设置成 2）
+sentinel monitor mymaster 127.0.0.1 6379 2
+sentinel down-after-milliseconds mymaster 30000
+sentinel parallel-syncs mymaster 1
+sentinel failover-timeout mymaster 180000
+sentinel deny-scripts-reconfig yes
 </code></pre>
 
             </div>
