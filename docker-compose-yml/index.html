@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585318677657">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585645816264">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -31,10 +31,11 @@ Mysql5
 Mysql8
 Redis集群
 Redis高可用监控
+Jenkins
 
 
 
-模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 d..." />
+模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面..." />
     <meta name="keywords" content="docker-compose" />
   </head>
   <body>
@@ -44,7 +45,7 @@ Redis高可用监控
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1585318677657" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1585645816264" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -116,6 +117,7 @@ Redis高可用监控
 <li><a href="#mysql8">Mysql8</a></li>
 <li><a href="#redis%E9%9B%86%E7%BE%A4">Redis集群</a></li>
 <li><a href="#sentinel%E9%9B%86%E7%BE%A4">Redis高可用监控</a></li>
+<li><a href="#jenkins">Jenkins</a></li>
 </ul>
 <br/>
 <br/>
@@ -595,6 +597,26 @@ sentinel down-after-milliseconds mymaster 30000
 sentinel parallel-syncs mymaster 1
 sentinel failover-timeout mymaster 180000
 sentinel deny-scripts-reconfig yes
+</code></pre>
+<h1 id="jenkins">Jenkins</h1>
+<pre><code>version: '3.1'
+services:
+  jenkins:
+    restart: always
+    image: jenkinsci/jenkins
+    container_name: jenkins
+    ports:
+      # 发布端口
+      - 8080:8080
+      # 基于 JNLP 的 Jenkins 代理通过 TCP 端口 50000 与 Jenkins master 进行通信
+      - 50000:50000
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data:/var/jenkins_home
+</code></pre>
+<p>安装过程中会出现 Docker 数据卷 权限问题，用以下命令解决：</p>
+<pre><code>chown -R 1000 /usr/local/docker/jenkins/data
 </code></pre>
 
             </div>

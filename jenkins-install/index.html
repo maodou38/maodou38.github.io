@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Linux日常操作 | 小丁的blog</title>
+<title>基于 Docker 安装 Jenkins | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -24,21 +24,12 @@
 
 
 
-    <meta name="description" content="#目录
-
-修改SSH默认端口
-开启BBR
-
-修改SSH默认端口
-1 修改端口
- vi /etc/ssh/sshd_config
- #找到Port XX 修改为自己想要的端口
-
-   
-2 防火墙放行
-#修改XXX为上面修改后端口
-firew..." />
-    <meta name="keywords" content="Linux" />
+    <meta name="description" content="docker-compose
+Jenkins 是一个简单易用的持续集成软件平台，我们依然采用 Docker 的方式部署，docker-compose.yml 配置文件如下：
+version: '3.1'
+services:
+  jenkin..." />
+    <meta name="keywords" content="jenkins,CI" />
   </head>
   <body>
     <div id="app" class="main">
@@ -105,60 +96,74 @@ firew..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Linux日常操作</h2>
-            <div class="post-date">2020-03-24</div>
+            <h2 class="post-title">基于 Docker 安装 Jenkins</h2>
+            <div class="post-date">2020-03-31</div>
             
             <div class="post-content" v-pre>
-              <p>#目录</p>
-<ul>
-<li><a href="#%E4%BF%AE%E6%94%B9ssh%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3">修改SSH默认端口</a></li>
-<li><a href="#%E5%BC%80%E5%90%AFBBR">开启BBR</a></li>
-</ul>
-<h1 id="修改ssh默认端口">修改SSH默认端口</h1>
-<h2 id="1-修改端口">1 修改端口</h2>
-<pre><code> vi /etc/ssh/sshd_config
- #找到Port XX 修改为自己想要的端口
+              <h1 id="docker-compose">docker-compose</h1>
+<p>Jenkins 是一个简单易用的持续集成软件平台，我们依然采用 Docker 的方式部署，docker-compose.yml 配置文件如下：</p>
+<pre><code>version: '3.1'
+services:
+  jenkins:
+    restart: always
+    image: jenkinsci/jenkins
+    container_name: jenkins
+    ports:
+      # 发布端口
+      - 8080:8080
+      # 基于 JNLP 的 Jenkins 代理通过 TCP 端口 50000 与 Jenkins master 进行通信
+      - 50000:50000
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data:/var/jenkins_home
 </code></pre>
- <br/>  
-<h2 id="2-防火墙放行">2 防火墙放行</h2>
-<pre><code>#修改XXX为上面修改后端口
-firewall-cmd --zone=public --add-port=XXX/tcp --permanent
-# 刷新防火墙规则
-firewall-cmd --reload
-#查看是否生效
-firewall-cmd --zone=public --query-port=XXX/tcp
+<p>安装过程中会出现 Docker 数据卷 权限问题，用以下命令解决：</p>
+<pre><code>chown -R 1000 /usr/local/docker/jenkins/data
 </code></pre>
- <br/>  
-<h2 id="3-selinux放行">3 SELinux放行</h2>
-<pre><code>#检查semanage是否安装
-rpm -qa |grep policycoreutils-python
-   #安装
-   yum install policycoreutils-python
-#查看当前SSH允许端口
-semanage port -l |grep ssh
-#添加新端口
-semanage port -a -t ssh_port_t -p tcp XXX
-#检查是否添加成功
-semanage port -l |grep ssh
+<h1 id="解锁-jenkins">解锁 Jenkins</h1>
+<p>Jenkins 第一次启动时需要输入一个初始密码用以解锁安装流程，使用 docker logs jenkins 即可方便的查看到初始密码<br>
+<img src="https://maodou38.github.io/post-images/1585645547790.png" alt="" loading="lazy"><br>
+<img src="https://maodou38.github.io/post-images/1585645555812.png" alt="" loading="lazy"><br>
+注意： 安装时可能会因为网速等原因导致安装时间比较长，请大家耐心等待。如果长时间停留在安装页没反应，请尝试使用 F5 刷新一下。</p>
+<h1 id="使用自定义插件的方式安装">使用自定义插件的方式安装</h1>
+<p>插件是 Jenkins 的核心，其丰富的插件（截止到 2018.10.29 共有 77350 个插件）可以满足不同人群的不同需求</p>
+<p>插件地址：https://plugins.jenkins.io/</p>
+<p>注意： 除了默认勾选的插件外，一定要勾选 Publish over SSH 插件，这是我们实现持续交付的重点插件。</p>
+<p><strong>开始安装了，根据网络情况，安装时间可能会比较长，请耐心等待</strong></p>
+<p><strong>很多插件装不上怎么办？不要慌，记住这些插件的名字，咱们稍后可以手动安装</strong></p>
+<h1 id="安装成功效果图">安装成功效果图</h1>
+<p>创建管理员<br>
+<img src="https://maodou38.github.io/post-images/1585645612510.png" alt="" loading="lazy"></p>
+<p>安装完成，进入首页</p>
+<h1 id="附jenkins-手动安装插件">附：Jenkins 手动安装插件</h1>
+<h2 id="使用插件管理器安装">使用插件管理器安装</h2>
+<p>Manage Jenkins -&gt; Manage Plugins -&gt; Avaliable</p>
+<p>过滤出想要安装的插件，然后点击 Download now and install after restart</p>
+<h2 id="手动上传-hpi-文件">手动上传 .hpi 文件</h2>
+<p>点击进入插件中心</p>
+<p>点击 Archives</p>
+<p>下载需要的版本</p>
+<p>在插件管理器中选择 Advanced</p>
+<p>选择上传即可<br>
+<img src="https://maodou38.github.io/post-images/1585645652068.png" alt="" loading="lazy"></p>
+<h2 id="重启-jenkins">重启 Jenkins</h2>
+<pre><code>docker-compose down
+docker-compose up -d
 </code></pre>
-<br/>  
-<h2 id="4-重启ssh服务">4 重启SSH服务</h2>
-<pre><code>systemctl restart sshd.service
-</code></pre>
-<br/>
-<br/>
-<br/>
-<br/>  
-<h1 id="开启bbr">开启BBR</h1>
-<pre><code>curl -O https://raw.githubusercontent.com/teddysun/across/master/bbr.sh &amp;&amp; sh bbr.sh
-</code></pre>
+<p>注意： 请留意需要下载插件的警告信息，如果不满足安装条件，Jenkins 是会拒绝安装的。如下图：<br>
+<img src="https://maodou38.github.io/post-images/1585645687846.png" alt="" loading="lazy"></p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://maodou38.github.io/dspM4EPE_/" class="tag">
-                    Linux
+                  <a href="https://maodou38.github.io/KYZWwXoIC/" class="tag">
+                    jenkins
+                  </a>
+                
+                  <a href="https://maodou38.github.io/0fasDvTStZ/" class="tag">
+                    CI
                   </a>
                 
               </div>
@@ -166,9 +171,9 @@ semanage port -l |grep ssh
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://maodou38.github.io/docker-compose-yml/">
+                <a href="https://maodou38.github.io/use-fastdfs/">
                   <h3 class="post-title">
-                    Docker Compose 模板文件
+                    使用FastDFS
                   </h3>
                 </a>
               </div>

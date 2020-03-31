@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>使用FastDFS | 小丁的blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585645816264">
+<link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="安装 FastDFS Java 客户端
+从 GitHub 克隆源码
+git clone https://github.com/happyfish100/fastdfs-client-java.git
+
+从源码安装并部署到 Nexus
+部署前..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://maodou38.github.io">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1585645816264" class="site-logo">
+        <h1 class="site-title">小丁的blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://maodou38.github.io" class="site-nav">
+            主页
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      <div><span>在技术的道路上慢慢找寻自我的价值</span>
+                                             <span class="rt">  ———小丁 
+   </span></div>
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/maodou38">randing</a> | <a class="rss" href="https://maodou38.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">使用FastDFS</h2>
+            <div class="post-date">2020-03-27</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="安装-fastdfs-java-客户端">安装 FastDFS Java 客户端</h1>
+<h2 id="从-github-克隆源码">从 GitHub 克隆源码</h2>
+<pre><code>git clone https://github.com/happyfish100/fastdfs-client-java.git
+</code></pre>
+<h2 id="从源码安装并部署到-nexus">从源码安装并部署到 Nexus</h2>
+<p>部署前别忘记在 pom.xml 中增加 Nexus 相关配置，配置代码如下：</p>
+<pre><code>&lt;distributionManagement&gt;
+    &lt;repository&gt;
+        &lt;id&gt;nexus-releases&lt;/id&gt;
+        &lt;name&gt;Nexus Release Repository&lt;/name&gt;
+        &lt;url&gt;http://192.168.75.128:8081/repository/maven-releases/&lt;/url&gt;
+    &lt;/repository&gt;
+    &lt;snapshotRepository&gt;
+        &lt;id&gt;nexus-snapshots&lt;/id&gt;
+        &lt;name&gt;Nexus Snapshot Repository&lt;/name&gt;
+        &lt;url&gt;http://192.168.75.128:8081/repository/maven-snapshots/&lt;/url&gt;
+    &lt;/snapshotRepository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+<pre><code>mvn clean install deploy
+</code></pre>
+<h2 id="在项目中添加依赖">在项目中添加依赖</h2>
+<pre><code>&lt;!-- FastDFS Begin --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.csource&lt;/groupId&gt;
+    &lt;artifactId&gt;fastdfs-client-java&lt;/artifactId&gt;
+    &lt;version&gt;1.27-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- FastDFS End --&gt;
+</code></pre>
+<h1 id="创建-fastdfs-工具类">创建 FastDFS 工具类</h1>
+<h2 id="定义文件存储服务接口">定义文件存储服务接口</h2>
+<pre><code>/**
+ * 文件存储服务接口
+ * &lt;p&gt;Title: StorageService&lt;/p&gt;
+ * &lt;p&gt;Description: &lt;/p&gt;
+ *
+ * @author Lusifer
+ * @version 1.0.0
+ * @date 2018/8/14 5:22
+ */
+public interface StorageService {
+    /**
+     * 上传文件
+     *
+     * @param data    文件的二进制内容
+     * @param extName 扩展名
+     * @return 上传成功后返回生成的文件id；失败，返回null
+     */
+    public String upload(byte[] data, String extName);
+
+    /**
+     * 删除文件
+     *
+     * @param fileId 被删除的文件id
+     * @return 删除成功后返回0，失败后返回错误代码
+     */
+    public int delete(String fileId);
+}
+</code></pre>
+<h2 id="实现文件存储服务接口">实现文件存储服务接口</h2>
+<pre><code>import org.csource.common.NameValuePair;
+import org.csource.fastdfs.ClientGlobal;
+import org.csource.fastdfs.StorageClient1;
+import org.csource.fastdfs.StorageServer;
+import org.csource.fastdfs.TrackerClient;
+import org.csource.fastdfs.TrackerGroup;
+import org.csource.fastdfs.TrackerServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * 文件存储服务实现
+ * &lt;p&gt;Title: FastDFSStorageService&lt;/p&gt;
+ * &lt;p&gt;Description: &lt;/p&gt;
+ *
+ * @author Lusifer
+ * @version 1.0.0
+ * @date 2018/8/14 5:27
+ */
+public class FastDFSStorageService implements StorageService, InitializingBean {
+    private static final Logger logger = LoggerFactory.getLogger(FastDFSStorageService.class);
+
+    private TrackerClient trackerClient;
+
+    @Value(&quot;${storage.fastdfs.tracker_server}&quot;)
+    private String trackerServer;
+
+    @Override
+    public String upload(byte[] data, String extName) {
+        TrackerServer trackerServer = null;
+        StorageServer storageServer = null;
+        StorageClient1 storageClient1 = null;
+        try {
+            NameValuePair[] meta_list = null; // new NameValuePair[0];
+
+            trackerServer = trackerClient.getConnection();
+            if (trackerServer == null) {
+                logger.error(&quot;getConnection return null&quot;);
+            }
+            storageServer = trackerClient.getStoreStorage(trackerServer);
+            storageClient1 = new StorageClient1(trackerServer, storageServer);
+            String fileid = storageClient1.upload_file1(data, extName, meta_list);
+            logger.debug(&quot;uploaded file &lt;{}&gt;&quot;, fileid);
+            return fileid;
+        } catch (Exception ex) {
+            logger.error(&quot;Upload fail&quot;, ex);
+            return null;
+        } finally {
+            if (storageServer != null) {
+                try {
+                    storageServer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (trackerServer != null) {
+                try {
+                    trackerServer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            storageClient1 = null;
+        }
+    }
+
+    @Override
+    public int delete(String fileId) {
+//        System.out.println(&quot;deleting ....&quot;);
+        TrackerServer trackerServer = null;
+        StorageServer storageServer = null;
+        StorageClient1 storageClient1 = null;
+        int index = fileId.indexOf('/');
+        String groupName = fileId.substring(0, index);
+        try {
+            trackerServer = trackerClient.getConnection();
+            if (trackerServer == null) {
+                logger.error(&quot;getConnection return null&quot;);
+            }
+            storageServer = trackerClient.getStoreStorage(trackerServer, groupName);
+            storageClient1 = new StorageClient1(trackerServer, storageServer);
+            int result = storageClient1.delete_file1(fileId);
+            return result;
+        } catch (Exception ex) {
+            logger.error(&quot;Delete fail&quot;, ex);
+            return 1;
+        } finally {
+            if (storageServer != null) {
+                try {
+                    storageServer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (trackerServer != null) {
+                try {
+                    trackerServer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            storageClient1 = null;
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        File confFile = File.createTempFile(&quot;fastdfs&quot;, &quot;.conf&quot;);
+        PrintWriter confWriter = new PrintWriter(new FileWriter(confFile));
+        confWriter.println(&quot;tracker_server=&quot; + trackerServer);
+        confWriter.close();
+        ClientGlobal.init(confFile.getAbsolutePath());
+        confFile.delete();
+        TrackerGroup trackerGroup = ClientGlobal.g_tracker_group;
+        trackerClient = new TrackerClient(trackerGroup);
+
+        logger.info(&quot;Init FastDFS with tracker_server : {}&quot;, trackerServer);
+    }
+}
+</code></pre>
+<h2 id="文件存储服务工厂类">文件存储服务工厂类</h2>
+<pre><code>import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 文件存储服务工厂类
+ * &lt;p&gt;Title: StorageFactory&lt;/p&gt;
+ * &lt;p&gt;Description: &lt;/p&gt;
+ *
+ * @author Lusifer
+ * @version 1.0.0
+ * @date 2018/8/14 5:28
+ */
+public class StorageFactory implements FactoryBean&lt;StorageService&gt; {
+
+    @Autowired
+    private AutowireCapableBeanFactory acbf;
+
+    /**
+     * 存储服务的类型，目前仅支持fastdfs
+     */
+    @Value(&quot;${storage.type}&quot;)
+    private String type;
+
+    private Map&lt;String, Class&lt;? extends StorageService&gt;&gt; classMap;
+
+    public StorageFactory() {
+        classMap = new HashMap&lt;&gt;();
+        classMap.put(&quot;fastdfs&quot;, FastDFSStorageService.class);
+    }
+
+    @Override
+    public StorageService getObject() throws Exception {
+        Class&lt;? extends StorageService&gt; clazz = classMap.get(type);
+        if (clazz == null) {
+            throw new RuntimeException(&quot;Unsupported storage type [&quot; + type + &quot;], valid are &quot; + classMap.keySet());
+        }
+
+        StorageService bean = clazz.newInstance();
+        acbf.autowireBean(bean);
+        acbf.initializeBean(bean, bean.getClass().getSimpleName());
+        return bean;
+    }
+
+    @Override
+    public Class&lt;?&gt; getObjectType() {
+        return StorageService.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return true;
+    }
+}
+</code></pre>
+<h2 id="配置文件存储服务工厂类">配置文件存储服务工厂类</h2>
+<pre><code>import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Java 配置方式定义 StorageFactory 的 Bean 使其可以被依赖注入
+ * &lt;p&gt;Title: FastDFSConfiguration&lt;/p&gt;
+ * &lt;p&gt;Description: &lt;/p&gt;
+ *
+ * @author Lusifer
+ * @version 1.0.0
+ * @date 2018/8/14 5:28
+ */
+@Configuration
+public class FastDFSConfiguration {
+    @Bean
+    public StorageFactory storageFactory() {
+        return new StorageFactory();
+    }
+}
+</code></pre>
+<h1 id="创建-fastdfs-控制器">创建 FastDFS 控制器</h1>
+<h2 id="增加云配置">增加云配置</h2>
+<pre><code>fastdfs.base.url: http://192.168.75.128:8888/
+storage:
+  type: fastdfs
+  fastdfs:
+    tracker_server: 192.168.75.128:22122
+</code></pre>
+<h2 id="控制器代码">控制器代码</h2>
+<pre><code>import com.funtl.itoken.service.upload.fastdfs.StorageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@CrossOrigin(origins = &quot;*&quot;, maxAge = 3600)
+@RestController
+public class UploadController {
+    @Value(&quot;${fastdfs.base.url}&quot;)
+    private String FASTDFS_BASE_URL;
+
+    @Autowired
+    private StorageService storageService;
+
+    /**
+     * 文件上传
+     *
+     * @param dropFile    Dropzone
+     * @param editorFiles wangEditor
+     * @return
+     */
+    @RequestMapping(value = &quot;upload&quot;, method = RequestMethod.POST)
+    public Map&lt;String, Object&gt; upload(MultipartFile dropFile, MultipartFile[] editorFiles) {
+        Map&lt;String, Object&gt; result = new HashMap&lt;&gt;();
+
+        // Dropzone 上传
+        if (dropFile != null) {
+            result.put(&quot;fileName&quot;, writeFile(dropFile));
+        }
+
+        // wangEditor 上传
+        if (editorFiles != null &amp;&amp; editorFiles.length &gt; 0) {
+            List&lt;String&gt; fileNames = new ArrayList&lt;&gt;();
+
+            for (MultipartFile editorFile : editorFiles) {
+                fileNames.add(writeFile(editorFile));
+            }
+
+            result.put(&quot;errno&quot;, 0);
+            result.put(&quot;data&quot;, fileNames);
+        }
+
+        return result;
+    }
+
+    /**
+     * 将图片写入指定目录
+     *
+     * @param multipartFile
+     * @return 返回文件完整路径
+     */
+    private String writeFile(MultipartFile multipartFile) {
+        // 获取文件后缀
+        String oName = multipartFile.getOriginalFilename();
+        String extName = oName.substring(oName.lastIndexOf(&quot;.&quot;) + 1);
+
+        // 文件存放路径
+        String url = null;
+        try {
+            String uploadUrl = storageService.upload(multipartFile.getBytes(), extName);
+            url = FASTDFS_BASE_URL + uploadUrl;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 返回文件完整路径
+        return url;
+    }
+}
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://maodou38.github.io/springboot2.X-workWithOthers/">
+                  <h3 class="post-title">
+                    SpringBoot2.X整合
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '17ec64f773b1afaef948',
+        clientSecret: '27224f5f2766e28963056872d67b6b477a06f19a',
+        repo: 'comment',
+        owner: 'maodou38',
+        admin: ['maodou38'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
