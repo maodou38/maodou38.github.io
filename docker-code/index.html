@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1585645816264">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1586438957955">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -39,7 +39,7 @@ docker ..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1585645816264" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1586438957955" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -126,6 +126,8 @@ docker ..." />
 <p><code>docker rmi -r $(docker images -q)</code></p>
 <h1 id="删除所有虚悬镜像">删除所有虚悬镜像</h1>
 <p><code>docker rmi $(docker images -q -f dangling=true)</code></p>
+<h1 id="删除所有未运行容器">删除所有未运行容器</h1>
+<p><code>sudo docker container prune</code></p>
 <h1 id="删除所有容器">删除所有容器</h1>
 <p><code>docker rm $(docker ps -a -q)</code></p>
 <h1 id="进入-docker-容器">进入 Docker 容器</h1>
