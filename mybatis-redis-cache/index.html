@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1586615742188">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1586616060490">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -23,6 +23,15 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163411650-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163411650-1');
+</script>
+
 
     <meta name="description" content="一级缓存
 MyBatis 会在表示会话的 SqlSession 对象中建立一个简单的缓存，将每次查询到的结果结果缓存起来，当下次查询的时候，如果判断先前有个完全一样的查询，会直接从缓存中直接将结果取出，返回给用户，不需要再进行一次数据库查询..." />
@@ -35,7 +44,7 @@ MyBatis 会在表示会话的 SqlSession 对象中建立一个简单的缓存，
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1586615742188" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1586616060490" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
