@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1586614736143">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1586614792939">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -47,7 +47,7 @@ firew..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1586614736143" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1586614792939" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -157,6 +157,12 @@ curl -O https://raw.githubusercontent.com/teddysun/across/master/bbr.sh &amp;&am
 echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf
 echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf
  #保存生效
+sysctl -p
+</code></pre>
+<p>#关闭BBR</p>
+<pre><code>#debian
+sed -i '/net\.core\.default_qdisc=fq/d' /etc/sysctl.conf
+sed -i '/net\.ipv4\.tcp_congestion_control=bbr/d' /etc/sysctl.conf
 sysctl -p
 </code></pre>
 
