@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1589719240435">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1589724164748">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -46,7 +46,7 @@ Settings--&gt;Build，Execution，Deployment--&gt;Compiler--&gt;Annotation P..."
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1589719240435" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1589724164748" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -111,8 +111,166 @@ Settings--&gt;Build，Execution，Deployment--&gt;Compiler--&gt;Annotation P..."
               <h1 id="配置lombok">配置lombok</h1>
 <ul>
 <li>Settings--&gt;Plugins--&gt;安装lombok插件</li>
-<li>Settings--&gt;Build，Execution，Deployment--&gt;Compiler--&gt;Annotation Processors--&gt;Enable annotation processing</li>
+<li>Settings--&gt;Build，Execution，Deployment--&gt;Compiler--&gt;Annotation Processors--&gt;Enable annotation processing<br>
+<br/><br>
+<br/></li>
 </ul>
+<h1 id="快捷键">快捷键</h1>
+<h2 id="编辑">编辑</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:center">中文说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Ctrl + Space</td>
+<td style="text-align:center">补全代码，由于经常与操作系统的输入法的切换冲突，所以实际很少用。一般直接在 idea 中开启输入自动补全机制。</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + Space</td>
+<td style="text-align:center">在列出的可选项中只显示出你所输入的关键字最相关的信息。（常用</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + Enter</td>
+<td style="text-align:center">代码补全后，自动在代码末尾添加分号结束符</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + P</td>
+<td style="text-align:center">在某个方法中，调用该按键后，会展示出这个方法的调用参数列表信息。</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Q</td>
+<td style="text-align:center">展示某个类或者方法的 API 说明文档</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + mouse</td>
+<td style="text-align:center">跳进到某个类或者方法源代码中进行查看。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Alt + Insert</td>
+<td style="text-align:center">自动生成某个类的 Getters, Setters, Constructors, hashCode/equals, toString 等代码。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + O</td>
+<td style="text-align:center">展示该类中所有覆盖或者实现的方法列表，注意这里是字母小写的 O！</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Alt + T</td>
+<td style="text-align:center">自动生成具有环绕性质的代码，比如：if…else,try…catch, for, synchronized 等等，使用前要先选择好需要环绕的代码块。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + /</td>
+<td style="text-align:center">对单行代码，添加或删除注释。分为两种情况：如果只是光标停留在某行，那么连续使用该快捷键，会不断注释掉下一行的代码；如果选定了某行代码（选定了某行代码一部分也算这种情况），那么连续使用该快捷键，会在添加或删除该行注释之间来回切换。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + /</td>
+<td style="text-align:center">对代码块，添加或删除注释。它与 Ctrl + / 的区别是，它只会在代码块的开头与结尾添加注释符号！（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + W</td>
+<td style="text-align:center">选中当前光标所在的代码块，多次触发，代码块会逐级变大。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + W</td>
+<td style="text-align:center">是 Ctrl + W 的反向操作，多次触发，代码块会逐级变小，最小变为光标。</td>
+</tr>
+<tr>
+<td style="text-align:center">Alt + Q</td>
+<td style="text-align:center">展示包含当前光标所在代码的父节点信息，比如在 java 方法中调用，就会展示方法签名信息。</td>
+</tr>
+<tr>
+<td style="text-align:center">Alt + Enter</td>
+<td style="text-align:center">展示当前当前光标所在代码，可以变化的扩展操作</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Alt + L</td>
+<td style="text-align:center">格式化代码 （常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Alt + O</td>
+<td style="text-align:center">去除没有实际用到的包，这在 java 类中特别有用。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Alt + I</td>
+<td style="text-align:center">按照缩进的设定，自动缩进所选择的代码段。</td>
+</tr>
+<tr>
+<td style="text-align:center">Tab / Shift + Tab</td>
+<td style="text-align:center">缩进或者不缩进一次所选择的代码段。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + X 或 Shift Delete</td>
+<td style="text-align:center">剪切当前代码。 （常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + C 或 Ctrl + Insert</td>
+<td style="text-align:center">拷贝当前代码。 （常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + V 或 Shift + Insert</td>
+<td style="text-align:center">粘贴之前剪切或拷贝的代码。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + V</td>
+<td style="text-align:center">从之前的剪切或拷贝的代码历史记录中，选择现在需要粘贴的内容。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + D</td>
+<td style="text-align:center">复制当前选中的代码。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Y</td>
+<td style="text-align:center">删除当前光标所在的代码行。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + J</td>
+<td style="text-align:center">把下一行的代码接续到当前的代码行。</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Enter</td>
+<td style="text-align:center">当前代码行与下一行代码之间插入一个空行，原来所在的光标不变。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Shift + Enter</td>
+<td style="text-align:center">当前代码行与下一行代码之间插入一个空行，原来光标现在处于新加的空行上。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + U</td>
+<td style="text-align:center">所选择的内容进行大小写转换。。（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + ]/[</td>
+<td style="text-align:center">从当前光标所在位置开始，一直选择到当前光标所在代码段起始或者结束位置。</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Delete</td>
+<td style="text-align:center">删除从当前光标所在位置开始，直到这个单词的结尾的内容。</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + NumPad(+/-)</td>
+<td style="text-align:center">展开或收缩代码段。 （常用）</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + NumPad(+)</td>
+<td style="text-align:center">展开所有代码段。</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + Shift + NumPad(-)</td>
+<td style="text-align:center">收缩所有代码段。</td>
+</tr>
+<tr>
+<td style="text-align:center">Ctrl + F4</td>
+<td style="text-align:center">关闭当前标签页。</td>
+</tr>
+<tr>
+<td style="text-align:center">Shift + F6</td>
+<td style="text-align:center">修改名字。（常用）</td>
+</tr>
+</tbody>
+</table>
 
             </div>
             
