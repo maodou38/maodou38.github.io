@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>centos 安装docker及docker-compose | 小丁的blog</title>
+<title>安装docker及docker-compose | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1589727179521">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1590333215868">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -33,11 +33,11 @@
 </script>
 
 
-    <meta name="description" content="Docker安装
+    <meta name="description" content="Docker安装（centos）
 1.删除已安装的Docker
     sudo yum remove docker \
                      docker-client \
-                     docker-cl..." />
+                     d..." />
     <meta name="keywords" content="docker" />
   </head>
   <body>
@@ -47,7 +47,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1589727179521" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1590333215868" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -105,14 +105,14 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">centos 安装docker及docker-compose</h2>
+            <h2 class="post-title">安装docker及docker-compose</h2>
             <div class="post-date">2020-03-21</div>
             
               <div class="feature-container" style="background-image: url('https://maodou38.github.io/post-images/docker-install.jpg')">
               </div>
             
             <div class="post-content" v-pre>
-              <h1 id="docker安装">Docker安装</h1>
+              <h1 id="docker安装centos">Docker安装（centos）</h1>
 <h2 id="1删除已安装的docker">1.删除已安装的Docker</h2>
 <pre><code class="language-bash">    sudo yum remove docker \
                      docker-client \
@@ -153,6 +153,39 @@ EOF
 <h2 id="5启动docker服务">5.启动Docker服务</h2>
 <pre><code class="language-bash">systemctl enable docker
 systemctl start docker
+</code></pre>
+<h1 id="docker安装debian">docker安装(debian)</h1>
+<h2 id="1卸载旧版本">1.卸载旧版本</h2>
+<pre><code>sudo apt-get remove docker docker-engine docker.io containerd runc
+</code></pre>
+<h2 id="2使用-docker-仓库进行安装">2.使用 Docker 仓库进行安装</h2>
+<pre><code>#设置仓库
+#更新 apt 包索引
+sudo apt-get update
+#安装 apt 依赖包，用于通过 HTTPS 来获取仓库
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common
+#添加 Docker 的官方 GPG 密钥
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+# 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88 通过搜索指纹的后8个字符，验证您现在是否拥有带有指纹的密钥
+sudo apt-key fingerprint 0EBFCD88
+#使用以下指令设置稳定版仓库
+sudo add-apt-repository \
+   &quot;deb [arch=amd64] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) \
+  stable&quot;
+</code></pre>
+<h2 id="3安装-docker-engine-community">3.安装 Docker Engine-Community</h2>
+<pre><code>#更新 apt 包索引
+sudo apt-get update
+#安装最新版本的 Docker Engine-Community 和 containerd ，或者转到下一步安装特定版本：
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+#要安装特定版本的 Docker Engine-Community，请在仓库中列出可用版本，然后选择一种安装。列出您的仓库中可用的版本：
+apt-cache madison docker-ce
 </code></pre>
 <h1 id="docker-用户组设置">Docker 用户组设置</h1>
 <h2 id="1创建docker用户组正常来说docker安装后会自动有docker用户组">1.创建docker用户组（正常来说docker安装后会自动有docker用户组）</h2>
