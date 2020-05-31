@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1590931136022">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1590932652605">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -35,9 +35,7 @@
 
     <meta name="description" content="Nginx作为缓存使用
 proxy_cache_path
-语法：proxy_cache_path path [levels=levels].只能用在http中。
-
-proxy_cache_path /root/cache levels=1:..." />
+语法：proxy_cache_path path [levels=levels] [use_temp_path=on|off] keys_zone=name:size [inacti..." />
     <meta name="keywords" content="nginx" />
   </head>
   <body>
@@ -47,7 +45,7 @@ proxy_cache_path /root/cache levels=1:..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1590931136022" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1590932652605" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -111,9 +109,20 @@ proxy_cache_path /root/cache levels=1:..." />
             <div class="post-content" v-pre>
               <h1 id="nginx作为缓存使用">Nginx作为缓存使用</h1>
 <h2 id="proxy_cache_path">proxy_cache_path</h2>
-<pre><code>语法：proxy_cache_path path [levels=levels].只能用在http中。
+<pre><code>语法：proxy_cache_path path [levels=levels] [use_temp_path=on|off] keys_zone=name:size [inactive=time] [max_size=size] [manager_files=number] [manager_sleep=time] [manager_threshold=time] [loader_files=number] [loader_sleep=time] [loader_threshold=time] [purger=on|off] [purger_files=number] [purger_sleep=time] [purger_threshold=time]。
+只能用在http中。
 </code></pre>
 <pre><code class="language-nginx">proxy_cache_path /root/cache levels=1:2 keys_zone=zzm_cache:10m max_size=1g inactive=60m use_temp_path=off;
+</code></pre>
+<ul>
+<li>缓存管理器会定时检查缓存的状态。如果缓存的内容大小达到了指令proxy_cache_path的参数max-size指定的值,则缓存管理器会根据LRU算法删除缓存的内容。 在检查的间隔时间内，总的缓存内容大小可以临时超过设定的大小阈值。</li>
+<li>缓存加载器只在Nginx启动的时候执行一次，将缓存内容的原信息加载到指定的共享内存区内。一次将所有的缓存内容加载到内存中会耗费大量的资源，并且会影响Nginx启动后几分钟内的性能。为了避免这种问题可以通过在指令proxy_cache_path后添加下面的参数：<br>
+   ● loader_threshold – 缓存加载器加载缓存内容的最大执行时间（单位是毫秒，默认值是200毫秒）<br>
+   ● loader_files – 在缓存加载器加载缓存内容的执行时间间隔内，最多能加载多少个缓存条目，默认100。<br>
+   ● loader_sleeps – 每两次执行的时间间隔, 单位是毫秒 (默认50毫秒)<br>
+   ● loader_sleeps 是否启动purge进程</li>
+</ul>
+<pre><code>proxy_cache_path /data/nginx/cache keys_zone=one:10m loader_threshold=300 loader_files=200;
 </code></pre>
 <ul>
 <li>/root/cache：定义 proxy_cache 生成文件的根路径</li>
@@ -137,8 +146,39 @@ proxy_cache_path /root/cache levels=1:..." />
 </code></pre>
 <ul>
 <li>proxy_cache：对应 http 段的 key_zone，是你定义的 proxy_cache 所使用的共享空间的名称，我在1.1中定义的是zzm_cache，所以在这里也写的是zzm_cache。</li>
+<li>proxy_cache_key 控制缓存KEY的生成规则</li>
+</ul>
+<pre><code>proxy_cache_key &quot;$host$request_uri$cookie_user&quot;;
+</code></pre>
+<ul>
+<li>proxy_cache_min_uses 指定一个请求的响应被缓存前的最小访问次数</li>
+</ul>
+<pre><code>proxy_cache_min_uses 5;
+</code></pre>
+<ul>
+<li>proxy_cache_methods 指定只有哪些HTTP请求类型才能被缓存</li>
+</ul>
+<pre><code>proxy_cache_methods GET HEAD POST;    
+</code></pre>
+<ul>
 <li>proxy_cache_valid：对指定的 HTTP 状态进行缓存，并指定缓存时间。可以自定义写入多个配置项。这里我们对200和304的返回码缓存12小时。其余的缓存10分钟</li>
-<li>proxy_cache_key：缓存的维度</li>
+</ul>
+<pre><code>proxy_cache_valid 200 302 10m;
+proxy_cache_valid 404      1m;   
+proxy_cache_valid any 5m;
+</code></pre>
+<ul>
+<li>proxy_cache_bypass 指定Nginx使用缓存的条件</li>
+</ul>
+<pre><code>#该指令的每个参数都指定了一个条件，只有请求满足其中的任何一个条件，并且参数的值不是0，则Nginx会把请求转发到后端的服务而不会使用缓存。
+proxy_cache_bypass $cookie_nocache $arg_nocache$arg_comment;   
+</code></pre>
+<ul>
+<li>proxy_no_cache 指定哪些请求不需要Nginx来缓存</li>
+</ul>
+<pre><code>proxy_no_cache $http_pragma $http_authorization;
+</code></pre>
+<ul>
 <li>is_args:如果$args设置，值为&quot;?&quot;，否则为&quot;&quot;</li>
 <li>proxy_next_upstream 当请求服务器发生错误或超时时，会尝试到下一台服务器</li>
 </ul>
@@ -153,6 +193,37 @@ proxy_cache_path /root/cache levels=1:..." />
                 proxy_cache_purge cache_one $host$1$is_args$args;  #清理缓存
                 access_log  logs/cache.log cache; # 增加清理输出日志
         }
+</code></pre>
+<pre><code> http {
+        ...
+        proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=mycache:10m purger=on;
+    
+        map $request_method $purge_method {
+            PURGE 1;
+            default 0;
+        }
+    
+        server {
+            listen      80;
+            server_name www.example.com;
+    
+                location / {
+                    proxy_pass        https://localhost:8002;
+                    proxy_cache       mycache;
+                    proxy_cache_purge $purge_method;
+                }
+        }
+    
+        geo $purge_allowed {
+           default         0;
+           10.0.0.1        1;
+           192.168.0.0/24  1;
+        }
+        map $request_method $purge_method {
+               PURGE   $purge_allowed;
+               default 0;
+        }
+    }
 </code></pre>
 <ul>
 <li>部分页面不缓存<br>
