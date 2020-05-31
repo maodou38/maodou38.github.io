@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1590932652605">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1590932776379">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -45,7 +45,7 @@ proxy_cache_path
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1590932652605" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1590932776379" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -120,7 +120,7 @@ proxy_cache_path
    ● loader_threshold – 缓存加载器加载缓存内容的最大执行时间（单位是毫秒，默认值是200毫秒）<br>
    ● loader_files – 在缓存加载器加载缓存内容的执行时间间隔内，最多能加载多少个缓存条目，默认100。<br>
    ● loader_sleeps – 每两次执行的时间间隔, 单位是毫秒 (默认50毫秒)<br>
-   ● loader_sleeps 是否启动purge进程</li>
+   ● purger=on 是否启动purge进程</li>
 </ul>
 <pre><code>proxy_cache_path /data/nginx/cache keys_zone=one:10m loader_threshold=300 loader_files=200;
 </code></pre>
