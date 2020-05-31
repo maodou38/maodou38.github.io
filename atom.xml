@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-05-25T11:33:38.700Z</updated>
+    <updated>2020-05-31T13:22:53.887Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -12,6 +12,13 @@
     <logo>https://maodou38.github.io/images/avatar.png</logo>
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Nginx使用]]></title>
+        <id>https://maodou38.github.io/nginx/</id>
+        <link href="https://maodou38.github.io/nginx/">
+        </link>
+        <updated>2020-05-30T16:00:00.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Validation使用]]></title>
         <id>https://maodou38.github.io/validation/</id>
@@ -39,12 +46,5 @@
         <link href="https://maodou38.github.io/use-fastdfs/">
         </link>
         <updated>2020-03-27T14:40:07.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[SpringBoot2.X整合]]></title>
-        <id>https://maodou38.github.io/springboot2.X-workWithOthers/</id>
-        <link href="https://maodou38.github.io/springboot2.X-workWithOthers/">
-        </link>
-        <updated>2020-03-27T09:53:26.000Z</updated>
     </entry>
 </feed>
