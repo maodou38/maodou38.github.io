@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Java | 小丁的blog</title>
+<title>Spring 注解详解 | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -11,6 +11,12 @@
 <link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1591520475624">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
@@ -27,9 +33,16 @@
 </script>
 
 
-    <meta name="description" content="&lt;div&gt;&lt;span&gt;在技术的道路上慢慢找寻自我的价值&lt;/span&gt;
-                                             &lt;span class=&#34;rt&#34;&gt;  ———小丁 
-   &lt;/span&gt;&lt;/div&gt;">
+    <meta name="description" content="ControllerAdvice
+
+全局异常处理@ControllerAdvice
+
+
+
+public class MyGlobalExceptionHandler {
+@ExceptionHandler(Exception.class)
+..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -95,43 +108,75 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: Java</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://maodou38.github.io/swagger-use/">
-                  <h2 class="post-title">使用swagger接口文档引擎</h2>
-                </a>
-                <div class="post-date">
-                  2020-03-27
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://maodou38.github.io/mybatis-redis-cache/">
-                  <h2 class="post-title">SpringBoot——Mybatis配置Redis二级缓存</h2>
-                </a>
-                <div class="post-date">
-                  2020-03-27
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">Spring 注解详解</h2>
+            <div class="post-date">2020-06-07</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="controlleradvice">ControllerAdvice</h1>
+<ol>
+<li>全局异常处理<pre><code class="language-java">@ControllerAdvice
+</code></pre>
+</li>
+</ol>
+<p>public class MyGlobalExceptionHandler {<br>
+@ExceptionHandler(Exception.class)<br>
+@ResponseBody<br>
+String handleException(Exception e){<br>
+return &quot;handler exception： &quot; + e.getMessage();<br>
+}<br>
+}</p>
+<pre><code>2. 全局数据绑定
+```java
+@ControllerAdvice
+public class MyGlobalExceptionHandler {
+ @ModelAttribute(name = &quot;md&quot;)
+ public Map&lt;String,Object&gt; mydata() {
+     HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+     map.put(&quot;age&quot;, 99);
+     map.put(&quot;gender&quot;, &quot;男&quot;);
+     return map;
+ }
+}
+</code></pre>
+<p>所有Controller中都可以获取到数据</p>
+<pre><code class="language-java">@RestController
+public class HelloController {
+ @GetMapping(&quot;/hello&quot;)
+ public String hello(Model model) {
+     Map&lt;String, Object&gt; map = model.asMap();
+     System.out.println(map);
+     int i = 1 / 0;
+     return &quot;hello controller advice&quot;;
+ }
+}
+</code></pre>
+<ol start="3">
+<li>全局数据预处理</li>
+</ol>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://maodou38.github.io/nginx/">
+                  <h3 class="post-title">
+                    Nginx使用
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
 
         </div>
       </div>
@@ -157,6 +202,29 @@ var app = new Vue({
     hljs.initHighlightingOnLoad()
   </script>
 
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '17ec64f773b1afaef948',
+        clientSecret: '27224f5f2766e28963056872d67b6b477a06f19a',
+        repo: 'comment',
+        owner: 'maodou38',
+        admin: ['maodou38'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 

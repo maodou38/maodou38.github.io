@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-06-03T01:46:48.525Z</updated>
+    <updated>2020-06-07T09:01:18.378Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -12,6 +12,13 @@
     <logo>https://maodou38.github.io/images/avatar.png</logo>
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Spring 注解详解]]></title>
+        <id>https://maodou38.github.io/spring-zhu-jie-xiang-jie/</id>
+        <link href="https://maodou38.github.io/spring-zhu-jie-xiang-jie/">
+        </link>
+        <updated>2020-06-07T07:35:30.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Nginx使用]]></title>
         <id>https://maodou38.github.io/nginx/</id>
@@ -39,12 +46,5 @@
         <link href="https://maodou38.github.io/jenkins-install/">
         </link>
         <updated>2020-03-31T09:02:40.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用FastDFS]]></title>
-        <id>https://maodou38.github.io/use-fastdfs/</id>
-        <link href="https://maodou38.github.io/use-fastdfs/">
-        </link>
-        <updated>2020-03-27T14:40:07.000Z</updated>
     </entry>
 </feed>
