@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-<title>SpringBoot2.X整合 | 小丁的blog</title>
+<title>注意点 | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -33,12 +33,9 @@
 </script>
 
 
-    <meta name="description" content="整合redis
-依赖
-&lt;!-- spring boot redis 缓存引入 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/grou..." />
-    <meta name="keywords" content="springboot" />
+    <meta name="description" content="https中允许http访问
+..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -105,71 +102,20 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">SpringBoot2.X整合</h2>
-            <div class="post-date">2020-03-27</div>
+            <h2 class="post-title">注意点</h2>
+            <div class="post-date">2020-06-12</div>
             
             <div class="post-content" v-pre>
-              <h1 id="整合redis">整合redis</h1>
-<h2 id="依赖">依赖</h2>
-<pre><code>&lt;!-- spring boot redis 缓存引入 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;!-- lettuce pool 缓存连接池 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
-    &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-<h2 id="applicationproperties配置文件">application.properties配置文件</h2>
-<pre><code># Redis数据库索引（默认为0）
-spring.redis.database=0  
-# Redis服务器地址
-spring.redis.host=localhost
-# Redis服务器连接端口
-spring.redis.port=6379  
-# Redis服务器连接密码（默认为空）
-spring.redis.password=
-# 连接池最大连接数（使用负值表示没有限制） 默认 8
-spring.redis.lettuce.pool.max-active=8
-# 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
-spring.redis.lettuce.pool.max-wait=-1
-# 连接池中的最大空闲连接 默认 8
-spring.redis.lettuce.pool.max-idle=8
-</code></pre>
-<h2 id="新建config包创建redisconfig类">新建config包，创建RedisConfig类</h2>
-<p>默认情况下RedisTemplate模板只能支持字符串，我们自定义一个RedisTemplate，设置序列化器，这样我们可以很方便的操作实例对象。</p>
-<pre><code>@Configuration
-public class RedisConfig {
-    @Bean
-    public RedisTemplate&lt;String, Serializable&gt; 
-            redisTemplate(LettuceConnectionFactory connectionFactory) {
-        RedisTemplate&lt;String, Serializable&gt; redisTemplate = new RedisTemplate&lt;&gt;();
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        redisTemplate.setConnectionFactory(connectionFactory);
-        return redisTemplate;
-    }
-}
-</code></pre>
-
+              <h1 id="https中允许http访问">https中允许http访问</h1>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://maodou38.github.io/bk1AeQmzB/" class="tag">
-                    springboot
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://maodou38.github.io/swagger-use/">
+                <a href="https://maodou38.github.io/spring-zhu-jie-xiang-jie/">
                   <h3 class="post-title">
-                    使用swagger接口文档引擎
+                    Spring 注解详解
                   </h3>
                 </a>
               </div>
