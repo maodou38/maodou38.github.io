@@ -1,112 +1,149 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" >
+<html lang="zh-CN">
 
-<title>SpringBoot——Mybatis配置Redis二级缓存 | 小丁的blog</title>
-
+<head>
+  <meta charset="UTF-8" />
+<title>SpringBoot——Mybatis配置Redis二级缓存 - 小丁的blog</title>
+<meta name="description" content="&lt;div&gt;&lt;span&gt;在技术的道路上慢慢找寻自我的价值&lt;/span&gt;
+                                             &lt;span class=&#34;rt&#34;&gt;  ———小丁 
+   &lt;/span&gt;&lt;/div&gt;">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1591968726432">
-<link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
+<link type='text/css' rel='stylesheet' href='https://maodou38.github.io/styles/main.css' media='screen' />
+<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css">
+<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<script type="text/javascript" src='https://maodou38.github.io/media/scripts/jquery.js'></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163411650-1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-163411650-1');
+    hljs.initHighlightingOnLoad();
 </script>
+</head>
+
+<body>
+  <div class="layout theme-dark">
+    <div class="layout-header">
+
+	<div class="layout-header-main">
+		<div class="container">
+			<div class="row justify-content-lg-center">
+				<div class="col-12 col-lg-9">
+
+					<div class="navbar">
+
+						<div class="logo">
+							<a href="https://maodou38.github.io">
+								<img class="logo"
+									src="https://maodou38.github.io/media/images/site_avatar.png?v=1591968940606"
+									alt="">
+							</a>
+						</div>
+
+						<div class="menu d-md-inline-block d-none">
+							<ul class="layout-navigation-list">
+								
+								<li class="layout-navigation-item"><a title="主页"
+										href="https://maodou38.github.io">主页</a>
+								</li>
+								
+								<li class="layout-navigation-item"><a title="标签"
+										href="https://maodou38.github.io/tags">标签</a>
+								</li>
+								
+								<li class="layout-navigation-item"><a title="归档"
+										href="https://maodou38.github.io/archives">归档</a>
+								</li>
+								
+							</ul>
+						</div>
+
+						<div class="item d-md-inline-block d-none">
+							<div class="search-icon">
+								<i class="fa fa-search" aria-hidden="true"></i>
+							</div>
+						</div>
 
 
-    <meta name="description" content="一级缓存
-MyBatis 会在表示会话的 SqlSession 对象中建立一个简单的缓存，将每次查询到的结果结果缓存起来，当下次查询的时候，如果判断先前有个完全一样的查询，会直接从缓存中直接将结果取出，返回给用户，不需要再进行一次数据库查询..." />
-    <meta name="keywords" content="springboot,Java" />
-  </head>
-  <body>
-    <div id="app" class="main">
 
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1591968726432" class="site-logo">
-        <h1 class="site-title">小丁的blog</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
-        
-          <a href="https://maodou38.github.io" class="site-nav">
-            主页
-          </a>
-        
-      
-        
-          <a href="https://maodou38.github.io/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="https://maodou38.github.io/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      <div><span>在技术的道路上慢慢找寻自我的价值</span>
-                                             <span class="rt">  ———小丁 
-   </span></div>
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/maodou38">randing</a> | <a class="rss" href="https://maodou38.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
+						<div class="d-md-inline-block d-none">
+							<div class="search-lightbox">
+								<div class="search-body">
+
+									<form id="gridea-search-form" data-update="1591968940606" action="/search/" class="search-form">
+										<input type="text" name="q" id="s" value="" class="search-field" placeholder="请输入搜索关键词" aria-label="请输入搜索关键词" required="">
+										<button type="submit" class="submit" aria-label="Submit">
+											<i class="fa fa-search" aria-hidden="true"></i>
+										</button>
+									</form>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="nav d-md-none d-inline-block">
+							<div class="trigger">
+								<i class="fa fa-bars layout-btn-toggle" aria-hidden="true"></i>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+
+
+
+		</div>
+	</div>
+
+</div>
+    <div class="layout-collapse d-md-none">
+	<div class="layout-collapse-main">
+		<ul class="layout-collapse-list">
+			
+			<li class="layout-collapse-item"><a title="主页" href="https://maodou38.github.io">主页</a></li>
+			
+			<li class="layout-collapse-item"><a title="标签" href="https://maodou38.github.io/tags">标签</a></li>
+			
+			<li class="layout-collapse-item"><a title="归档" href="https://maodou38.github.io/archives">归档</a></li>
+			
+
+		</ul>
+	</div>
 </div>
 
+    <div class="layout-content">
+      <div class="layout-content-main">
+        <div class="container">
+          <div class="row justify-content-lg-center">
+            <div class="col-12 col-lg-9">
+              <div class="layout-post">
+                <div class="layout-post-body">
+                  <div class="row">
 
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">SpringBoot——Mybatis配置Redis二级缓存</h2>
-            <div class="post-date">2020-03-27</div>
-            
-            <div class="post-content" v-pre>
-              <h1 id="一级缓存">一级缓存</h1>
+                    <div class="col-12 col-lg-10">
+                      <div class="layout-post-main m-right m-md-right">
+                        <div class="layout-post-header">
+                          <h1 class="layout-post-title">SpringBoot——Mybatis配置Redis二级缓存</h1>
+                          <div class="layout-post-meta">
+                            <div class="item">
+                               <a href="https://maodou38.github.io/bk1AeQmzB/" class="post--keyword"
+                                data-title="springboot" data-type="post_tag" data-term-id="39">springboot</a>
+                               <a href="https://maodou38.github.io/rEjH4-Bi46/" class="post--keyword"
+                                data-title="Java" data-type="post_tag" data-term-id="39">Java</a>
+                              
+                            </div>
+                            <div class="item">
+                              <span>2020-03-27</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="layout-post-content">
+                          <div class="layout-post-item">
+                            
+                            <h1 id="一级缓存">一级缓存</h1>
 <p>MyBatis 会在表示会话的 SqlSession 对象中建立一个简单的缓存，将每次查询到的结果结果缓存起来，当下次查询的时候，如果判断先前有个完全一样的查询，会直接从缓存中直接将结果取出，返回给用户，不需要再进行一次数据库查询了。</p>
 <p>一级缓存是 SqlSession 级别的缓存。在操作数据库时需要构造 sqlSession 对象，在对象中有一个（内存区域）数据结构（HashMap）用于存储缓存数据。不同的 sqlSession 之间的缓存数据区域（HashMap）是互相不影响的。其作用域是同一个 SqlSession，在同一个 sqlSession 中两次执行相同的 sql 语句，第一次执行完毕会将数据库中查询的数据写到缓存（内存），第二次会从缓存中获取数据将不再从数据库查询，从而提高查询效率。当一个 sqlSession 结束后该 sqlSession 中的一级缓存也就不存在了。Mybatis 默认开启一级缓存。</p>
 <h1 id="二级缓存">二级缓存</h1>
@@ -352,91 +389,158 @@ public interface TbSysUserMapper extends MyMapper&lt;TbSysUser&gt; {
 }
 </code></pre>
 
+                          </div>
+                        </div>
+                        <div class="layout-post-social">
+                          <div class="item reader">
+                            <div id="/post/mybatis-redis-cache/" class="leancloud-visitors view"
+                              data-flag-title="SpringBoot——Mybatis配置Redis二级缓存">
+                              <span class="post-meta-item-text">阅读 </span>
+                              <span class="leancloud-visitors-count"></span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="layout-post-navigation">
+                          <div class="navigation-list">
+                            
+                            <div class="post-card row">
+                              
+                              <div class="card-content col-12">
+                                <div class="card-body">
+                                  <div class="header">
+                                    <a href="https://maodou38.github.io/swagger-use/" class="title">
+                                      <h4>使用swagger接口文档引擎</h4>
+                                    </a>
+                                  </div>
+                                  <div class="inner">
+                                    <div class="abstract">
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <div class="item"><span>上一篇</span></div>
+                                  <div class="item">2020-03-27</div>
+                                </div>
+                              </div>
+                              
+                            </div>
+
+                            <div class="post-card row">
+                              
+                              <div class="card-content col-12">
+                                <div class="card-body">
+                                  <div class="header">
+                                    <a href="https://maodou38.github.io/useful-urls/" class="title">
+                                      <h4>各种资源地址整理</h4>
+                                    </a>
+                                  </div>
+                                  <div class="inner">
+                                    <div class="abstract">
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <div class="item"><span>下一篇</span></div>
+                                  <div class="item">2020-03-26</div>
+                                </div>
+                              </div>
+                              
+                            </div>
+
+                            
+                          </div>
+                        </div>
+
+                        <div class="layout-comments"></div>
+                        
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-lg-2 d-none d-lg-block">
+                      <div class="layout-post-sidebar">
+                        <div class="layout-sidebar-item">
+                          <ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98">一级缓存</a></li>
+<li><a href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98">二级缓存</a></li>
+<li><a href="#%E5%BC%80%E5%90%AF-mybatis-%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98">开启 MyBatis 二级缓存</a></li>
+<li><a href="#%E5%AE%9E%E4%BD%93%E7%B1%BB%E5%AE%9E%E7%8E%B0%E5%BA%8F%E5%88%97%E5%8C%96%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%A3%B0%E6%98%8E%E5%BA%8F%E5%88%97%E5%8F%B7">实体类实现序列化接口并声明序列号</a></li>
+<li><a href="#idea-%E6%8F%90%E7%A4%BA%E7%94%9F%E6%88%90%E5%BA%8F%E5%88%97%E5%8F%B7">IDEA 提示生成序列号</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7%E7%B1%BB">创建相关工具类</a>
+<ul>
+<li><a href="#%E5%AE%9E%E7%8E%B0-spring-applicationcontextaware-%E6%8E%A5%E5%8F%A3%E7%94%A8%E4%BA%8E%E6%89%8B%E5%8A%A8%E6%B3%A8%E5%85%A5-bean">实现 Spring ApplicationContextAware 接口，用于手动注入 Bean</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0-mybatis-cache-%E6%8E%A5%E5%8F%A3%E7%94%A8%E4%BA%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%93%E5%AD%98%E4%B8%BA-redis">实现 MyBatis Cache 接口，用于自定义缓存为 Redis</a></li>
+<li><a href="#mapper-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E5%A2%9E%E5%8A%A0%E6%B3%A8%E8%A7%A3">Mapper 接口中增加注解</a></li>
+</ul>
+</li>
+</ul>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://maodou38.github.io/bk1AeQmzB/" class="tag">
-                    springboot
-                  </a>
-                
-                  <a href="https://maodou38.github.io/rEjH4-Bi46/" class="tag">
-                    Java
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://maodou38.github.io/useful-urls/">
-                  <h3 class="post-title">
-                    各种资源地址整理
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
           </div>
-
         </div>
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <div class="layout-totop d-none"><i class="fa fa-angle-up" aria-hidden="true"></i></div>
 
-AOS.init();
+    	<div class="layout-footer">
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+		<div class="container">
+			<div class="row justify-content-lg-center">
+				<div class="col-12 col-lg-9">
+					<div class="footer">
+						<div class="row">
+							<div class="col-12 col-md-9">
+								<div class="footer-copy">
+									
+									Powered by <a href="https://github.com/maodou38">randing</a>
+									<div class="footer-icp d-none d-sm-inline-block">
+										<span class="px-2">⋅</span>
+										
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3 d-none d-md-block">
+								<div class="footer-links">
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-</script>
+	</div>
 
+	<script type="text/javascript" src='https://maodou38.github.io/media/scripts/main.js'></script>
+	
 
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad()
-  </script>
+  </div>
+</body>
 
-
-
-
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
-
-      var gitalk = new Gitalk({
-        clientID: '17ec64f773b1afaef948',
-        clientSecret: '27224f5f2766e28963056872d67b6b477a06f19a',
-        repo: 'comment',
-        owner: 'maodou38',
-        admin: ['maodou38'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
-
-    </script>
-  
-
-  
-
-
-
-
-  </body>
 </html>
