@@ -1,145 +1,114 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
+  <head>
+    <meta charset="utf-8" >
 
-<head>
-  <meta charset="UTF-8" />
-<title>Intellij 使用 - 小丁的blog</title>
-<meta name="description" content="&lt;div&gt;&lt;span&gt;在技术的道路上慢慢找寻自我的价值&lt;/span&gt;
-                                             &lt;span class=&#34;rt&#34;&gt;  ———小丁 
-   &lt;/span&gt;&lt;/div&gt;">
+<title>Intellij 使用 | 小丁的blog</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-<link type='text/css' rel='stylesheet' href='https://maodou38.github.io/styles/main.css' media='screen' />
-<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css">
-<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1591969090000">
+<link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
-<script type="text/javascript" src='https://maodou38.github.io/media/scripts/jquery.js'></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163411650-1"></script>
 <script>
-    hljs.initHighlightingOnLoad();
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163411650-1');
 </script>
-</head>
-
-<body>
-  <div class="layout theme-dark">
-    <div class="layout-header">
-
-	<div class="layout-header-main">
-		<div class="container">
-			<div class="row justify-content-lg-center">
-				<div class="col-12 col-lg-9">
-
-					<div class="navbar">
-
-						<div class="logo">
-							<a href="https://maodou38.github.io">
-								<img class="logo"
-									src="https://maodou38.github.io/media/images/site_avatar.png?v=1591968940606"
-									alt="">
-							</a>
-						</div>
-
-						<div class="menu d-md-inline-block d-none">
-							<ul class="layout-navigation-list">
-								
-								<li class="layout-navigation-item"><a title="主页"
-										href="https://maodou38.github.io">主页</a>
-								</li>
-								
-								<li class="layout-navigation-item"><a title="标签"
-										href="https://maodou38.github.io/tags">标签</a>
-								</li>
-								
-								<li class="layout-navigation-item"><a title="归档"
-										href="https://maodou38.github.io/archives">归档</a>
-								</li>
-								
-							</ul>
-						</div>
-
-						<div class="item d-md-inline-block d-none">
-							<div class="search-icon">
-								<i class="fa fa-search" aria-hidden="true"></i>
-							</div>
-						</div>
 
 
+    <meta name="description" content="配置lombok
 
-						<div class="d-md-inline-block d-none">
-							<div class="search-lightbox">
-								<div class="search-body">
+Settings--&gt;Plugins--&gt;安装lombok插件
+Settings--&gt;Build，Execution，Deployment--&gt;Compiler--&gt;Annotation P..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
 
-									<form id="gridea-search-form" data-update="1591968940606" action="/search/" class="search-form">
-										<input type="text" name="q" id="s" value="" class="search-field" placeholder="请输入搜索关键词" aria-label="请输入搜索关键词" required="">
-										<button type="submit" class="submit" aria-label="Submit">
-											<i class="fa fa-search" aria-hidden="true"></i>
-										</button>
-									</form>
-
-								</div>
-							</div>
-						</div>
-
-						<div class="nav d-md-none d-inline-block">
-							<div class="trigger">
-								<i class="fa fa-bars layout-btn-toggle" aria-hidden="true"></i>
-							</div>
-						</div>
-
-					</div>
-
-				</div>
-			</div>
-
-
-
-
-		</div>
-	</div>
-
-</div>
-    <div class="layout-collapse d-md-none">
-	<div class="layout-collapse-main">
-		<ul class="layout-collapse-list">
-			
-			<li class="layout-collapse-item"><a title="主页" href="https://maodou38.github.io">主页</a></li>
-			
-			<li class="layout-collapse-item"><a title="标签" href="https://maodou38.github.io/tags">标签</a></li>
-			
-			<li class="layout-collapse-item"><a title="归档" href="https://maodou38.github.io/archives">归档</a></li>
-			
-
-		</ul>
-	</div>
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://maodou38.github.io">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1591969090000" class="site-logo">
+        <h1 class="site-title">小丁的blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://maodou38.github.io" class="site-nav">
+            主页
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://maodou38.github.io/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      <div><span>在技术的道路上慢慢找寻自我的价值</span>
+                                             <span class="rt">  ———小丁 
+   </span></div>
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/maodou38">randing</a> | <a class="rss" href="https://maodou38.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
 </div>
 
-    <div class="layout-content">
-      <div class="layout-content-main">
-        <div class="container">
-          <div class="row justify-content-lg-center">
-            <div class="col-12 col-lg-9">
-              <div class="layout-post">
-                <div class="layout-post-body">
-                  <div class="row">
 
-                    <div class="col-12 col-lg-10">
-                      <div class="layout-post-main m-right m-md-right">
-                        <div class="layout-post-header">
-                          <h1 class="layout-post-title">Intellij 使用</h1>
-                          <div class="layout-post-meta">
-                            <div class="item">
-                              
-                            </div>
-                            <div class="item">
-                              <span>2020-05-17</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="layout-post-content">
-                          <div class="layout-post-item">
-                            
-                            <h1 id="配置lombok">配置lombok</h1>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Intellij 使用</h2>
+            <div class="post-date">2020-05-17</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="配置lombok">配置lombok</h1>
 <ul>
 <li>Settings--&gt;Plugins--&gt;安装lombok插件</li>
 <li>Settings--&gt;Build，Execution，Deployment--&gt;Compiler--&gt;Annotation Processors--&gt;Enable annotation processing<br>
@@ -717,194 +686,79 @@ Favorites 面板中的 Bookmarks 就是我们添加的书签哦：<br>
 <p>注意不要选择面板提供的 26 个大写字母，因为这会与 idea 的其他快捷键冲突，不知道 idea 为什么要把它们放在这里？好奇怪 O(∩_∩)O~<br>
 <img src="https://maodou38.github.io/post-images/1589727177989.jfif" alt="" loading="lazy"></p>
 
-                          </div>
-                        </div>
-                        <div class="layout-post-social">
-                          <div class="item reader">
-                            <div id="/post/intellij/" class="leancloud-visitors view"
-                              data-flag-title="Intellij 使用">
-                              <span class="post-meta-item-text">阅读 </span>
-                              <span class="leancloud-visitors-count"></span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="layout-post-navigation">
-                          <div class="navigation-list">
-                            
-                            <div class="post-card row">
-                              
-                              <div class="card-content col-12">
-                                <div class="card-body">
-                                  <div class="header">
-                                    <a href="https://maodou38.github.io/validation/" class="title">
-                                      <h4>Validation使用</h4>
-                                    </a>
-                                  </div>
-                                  <div class="inner">
-                                    <div class="abstract">
-                                      
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="card-footer">
-                                  <div class="item"><span>上一篇</span></div>
-                                  <div class="item">2020-05-25</div>
-                                </div>
-                              </div>
-                              
-                            </div>
-
-                            <div class="post-card row">
-                              
-                              <div class="card-content col-12">
-                                <div class="card-body">
-                                  <div class="header">
-                                    <a href="https://maodou38.github.io/jenkins-install/" class="title">
-                                      <h4>基于 Docker 安装 Jenkins</h4>
-                                    </a>
-                                  </div>
-                                  <div class="inner">
-                                    <div class="abstract">
-                                      
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="card-footer">
-                                  <div class="item"><span>下一篇</span></div>
-                                  <div class="item">2020-03-31</div>
-                                </div>
-                              </div>
-                              
-                            </div>
-
-                            
-                          </div>
-                        </div>
-
-                        <div class="layout-comments"></div>
-                        
-                      </div>
-                    </div>
-
-                    <div class="col-12 col-lg-2 d-none d-lg-block">
-                      <div class="layout-post-sidebar">
-                        <div class="layout-sidebar-item">
-                          <ul class="markdownIt-TOC">
-<li><a href="#%E9%85%8D%E7%BD%AElombok">配置lombok</a></li>
-<li><a href="#%E5%BF%AB%E6%8D%B7%E9%94%AE">快捷键</a>
-<ul>
-<li><a href="#1%E7%BC%96%E8%BE%91">1.编辑</a>
-<ul>
-<li><a href="#11-ctrl-shift-space-%E7%A4%BA%E4%BE%8B%E6%99%BA%E8%83%BD%E8%A1%A5%E5%85%A8">1.1 Ctrl + Shift + Space 示例（智能补全）</a></li>
-<li><a href="#12-ctrl-p-%E7%A4%BA%E4%BE%8B%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8">1.2 Ctrl + P 示例（方法参数列表）</a></li>
-<li><a href="#13-ctrl-q-%E7%A4%BA%E4%BE%8Bapi-%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3">1.3 Ctrl + Q 示例（API 说明文档）</a></li>
-<li><a href="#14-alt-insert-%E7%A4%BA%E4%BE%8B%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E4%B8%8E%E7%B1%BB%E7%9B%B8%E5%85%B3%E7%9A%84%E4%BB%A3%E7%A0%81">1.4 Alt + Insert 示例（自动生成与类相关的代码）</a></li>
-<li><a href="#15-ctrl-o-%E7%A4%BA%E4%BE%8B%E8%AF%A5%E7%B1%BB%E4%B8%AD%E6%89%80%E6%9C%89%E8%A6%86%E7%9B%96%E6%88%96%E8%80%85%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8">1.5 Ctrl + O 示例（该类中所有覆盖或者实现的方法列表）</a></li>
-<li><a href="#16-ctrl-alt-t-%E7%A4%BA%E4%BE%8B%E7%94%9F%E6%88%90%E5%85%B7%E6%9C%89%E7%8E%AF%E7%BB%95%E6%80%A7%E8%B4%A8%E7%9A%84%E4%BB%A3%E7%A0%81">1.6 Ctrl + Alt + T 示例（生成具有环绕性质的代码）</a></li>
-<li><a href="#17-ctrl-shift-v-%E7%A4%BA%E4%BE%8B%E5%89%AA%E5%88%87%E6%88%96%E6%8B%B7%E8%B4%9D%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E4%B8%AD%E9%80%89%E6%8B%A9%E7%B2%98%E8%B4%B4%E7%9A%84%E5%86%85%E5%AE%B9">1.7 Ctrl + Shift + V 示例（剪切或拷贝的代码历史记录中，选择粘贴的内容）</a></li>
-</ul>
-</li>
-<li><a href="#2%E6%9F%A5%E6%89%BE%E6%88%96%E6%9B%BF%E6%8D%A2">2.查找或替换</a>
-<ul>
-<li><a href="#21-ctrl-f-%E6%9F%A5%E6%89%BE">2.1 Ctrl + F （查找）</a></li>
-<li><a href="#22-ctrl-shift-f-%E9%80%9A%E8%BF%87%E8%B7%AF%E5%BE%84%E6%9F%A5%E6%89%BE">2.2 Ctrl + Shift + F （通过路径查找）</a></li>
-</ul>
-</li>
-<li><a href="#3%E6%9F%A5%E7%9C%8B%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5">3.查看使用情况</a>
-<ul>
-<li><a href="#31-ctrl-alt-f7%E6%89%93%E5%BC%80%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5%E5%88%97%E8%A1%A8">3.1 Ctrl + Alt + F7（打开使用情况列表）</a></li>
-</ul>
-</li>
-<li><a href="#4%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C">4.编译与运行</a>
-<ul>
-<li><a href="#41-alt-shift-f10%E6%89%93%E5%BC%80%E8%BF%90%E8%A1%8C%E5%88%97%E8%A1%A8%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AA%E8%BF%90%E8%A1%8C">4.1 Alt + Shift + F10（打开运行列表，选择一个运行）</a></li>
-</ul>
-</li>
-<li><a href="#5%E8%B0%83%E8%AF%95">5.调试</a>
-<ul>
-<li><a href="#51-shift-f7%E9%80%89%E6%8B%A9%E5%85%B7%E4%BD%93%E8%A6%81%E8%B7%B3%E5%85%A5%E7%9A%84%E7%B1%BB%E6%96%B9%E6%B3%95">5.1 Shift + F7（选择具体要跳入的类方法）</a></li>
-<li><a href="#52-alt-f8-%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F">5.2 Alt + F8 （计算表达式）</a></li>
-<li><a href="#53-ctrl-shift-f8-%E5%BD%93%E5%89%8D%E6%96%AD%E7%82%B9%E7%9A%84%E9%9D%A2%E6%9D%BF">5.3 Ctrl + Shift + F8 （当前断点的面板）</a></li>
-</ul>
-</li>
-<li><a href="#6%E5%AF%BC%E8%88%AA">6.导航</a>
-<ul>
-<li><a href="#61-ctrl-n-%E6%89%93%E5%BC%80%E7%B1%BB%E6%9F%A5%E8%AF%A2%E6%A1%86">6.1 Ctrl + N （打开类查询框）</a></li>
-<li><a href="#62-ctrl-alt-%E5%8F%B3%E7%AE%AD%E5%A4%B4%E5%B7%A6%E7%AE%AD%E5%A4%B4%E5%9C%A8%E6%9B%BE%E7%BB%8F%E6%B5%8F%E8%A7%88%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A1%8C%E4%B8%AD%E6%9D%A5%E5%9B%9E%E8%B7%B3">6.2 Ctrl + Alt + 右箭头/左箭头（在曾经浏览过的代码行中来回跳）</a></li>
-<li><a href="#63-alt-f1%E6%89%93%E5%BC%80%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%9E%8B%E5%88%97%E8%A1%A8">6.3 Alt + F1（打开一个类型列表）</a></li>
-<li><a href="#64-f11%E6%B7%BB%E5%8A%A0%E4%B8%BA%E4%B9%A6%E7%AD%BE%E6%88%96%E8%80%85%E4%BB%8E%E4%B9%A6%E7%AD%BE%E4%B8%AD%E5%88%A0%E9%99%A4">6.4 F11（添加为书签或者从书签中删除）</a></li>
-<li><a href="#65-ctrl-f11-%E6%B7%BB%E5%8A%A0%E6%88%96%E5%88%A0%E9%99%A4%E5%B8%A6%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E4%B9%A6%E7%AD%BE">6.5 Ctrl + F11 （添加或删除带快捷键的书签）</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://maodou38.github.io/jenkins-install/">
+                  <h3 class="post-title">
+                    基于 Docker 安装 Jenkins
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
           </div>
+
         </div>
       </div>
     </div>
 
-    <div class="layout-totop d-none"><i class="fa fa-angle-up" aria-hidden="true"></i></div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
 
-    	<div class="layout-footer">
+AOS.init();
 
-		<div class="container">
-			<div class="row justify-content-lg-center">
-				<div class="col-12 col-lg-9">
-					<div class="footer">
-						<div class="row">
-							<div class="col-12 col-md-9">
-								<div class="footer-copy">
-									
-									Powered by <a href="https://github.com/maodou38">randing</a>
-									<div class="footer-icp d-none d-sm-inline-block">
-										<span class="px-2">⋅</span>
-										
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-3 d-none d-md-block">
-								<div class="footer-links">
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-									
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-	</div>
+</script>
 
-	<script type="text/javascript" src='https://maodou38.github.io/media/scripts/main.js'></script>
-	
 
-  </div>
-</body>
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
 
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '17ec64f773b1afaef948',
+        clientSecret: '27224f5f2766e28963056872d67b6b477a06f19a',
+        repo: 'comment',
+        owner: 'maodou38',
+        admin: ['maodou38'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
 </html>
