@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-<title>基于 Docker 安装 Jenkins | 小丁的blog</title>
+<title>Centos | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -33,12 +33,15 @@
 </script>
 
 
-    <meta name="description" content="docker-compose
-Jenkins 是一个简单易用的持续集成软件平台，我们依然采用 Docker 的方式部署，docker-compose.yml 配置文件如下：
-version: '3.1'
-services:
-  jenkin..." />
-    <meta name="keywords" content="jenkins,CI" />
+    <meta name="description" content="修改IP
+方式一
+nmtui 调出修改窗口
+方式二
+cd /etc/sysconfig/network-scripts/
+修改相关网卡文件
+      IPADDR=192.168.0.230 #静态IP
+      GATEWAY=192..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -105,84 +108,67 @@ services:
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">基于 Docker 安装 Jenkins</h2>
-            <div class="post-date">2020-03-31</div>
+            <h2 class="post-title">Centos</h2>
+            <div class="post-date">2020-08-14</div>
             
             <div class="post-content" v-pre>
-              <h1 id="docker-compose">docker-compose</h1>
-<p>Jenkins 是一个简单易用的持续集成软件平台，我们依然采用 Docker 的方式部署，docker-compose.yml 配置文件如下：</p>
-<pre><code>version: '3.1'
-services:
-  jenkins:
-    restart: always
-    image: jenkinsci/jenkins
-    container_name: jenkins
-    ports:
-      # 发布端口
-      - 8080:8080
-      # 基于 JNLP 的 Jenkins 代理通过 TCP 端口 50000 与 Jenkins master 进行通信
-      - 50000:50000
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - ./data:/var/jenkins_home
+              <h1 id="修改ip">修改IP</h1>
+<h2 id="方式一">方式一</h2>
+<p>nmtui 调出修改窗口</p>
+<h2 id="方式二">方式二</h2>
+<p>cd /etc/sysconfig/network-scripts/<br>
+修改相关网卡文件</p>
+<pre><code>      IPADDR=192.168.0.230 #静态IP
+      GATEWAY=192.168.0.1 #默认网关
+      NETMASK=255.255.255.0 #子网掩码
+      DNS1=192.168.0.1 #DNS 配置
+      DNS2=8.8.8.8 #谷歌地址
 </code></pre>
-<p>安装过程中会出现 Docker 数据卷 权限问题，用以下命令解决：</p>
-<pre><code>chown -R 1000 /usr/local/docker/jenkins/data
+<p>重启网卡：service network restart</p>
+<h1 id="修改主机名">修改主机名</h1>
+<p>在CentOS7中，有三种定义的主机名:</p>
+<p>静态的（Static hostname）<br>
+“静态”主机名也称为内核主机名，是系统在启动时从/etc/hostname自动初始化的主机名。</p>
+<p>瞬态的（Tansient hostname）<br>
+“瞬态”主机名是在系统运行时临时分配的主机名，例如，通过DHCP或mDNS服务器分配。</p>
+<p>灵活的（Pretty hostname）<br>
+“灵活”主机名也有人叫做“别名”主机名。<br>
+“灵活”主机名则允许使用自由形式（包括特殊/空白字符）的主机名，以展示给终端用户（如xh01@f5）。<br>
+“静态”主机名和“瞬态”主机名都遵从作为互联网域名同样的字符限制规则。</p>
+<p>在CentOS 7中，有个叫hostnamectl的命令行工具，它允许你查看或修改与主机名相关的配置。</p>
+<ul>
+<li>一旦修改了静态主机名，/etc/hostname 将被自动更新。然而，/etc/hosts 不会更新以保存所做的修改，所以你每次在修改主机名后一定要手动更新/etc/hosts，之后再重启CentOS 7。否则系统再启动时会很慢。</li>
+</ul>
+<pre><code>//永久性的修改主机名称，重启后能保持修改后的。
+hostnamectl set-hostname xxx    
+
+//删除hostname
+hostnamectl set-hostname &quot;&quot;
+hostnamectl set-hostname &quot;&quot; --static
+hostnamectl set-hostname &quot;&quot; --pretty
 </code></pre>
-<h1 id="解锁-jenkins">解锁 Jenkins</h1>
-<p>Jenkins 第一次启动时需要输入一个初始密码用以解锁安装流程，使用 docker logs jenkins 即可方便的查看到初始密码<br>
-<img src="https://maodou38.github.io/post-images/1585645547790.png" alt="" loading="lazy"><br>
-<img src="https://maodou38.github.io/post-images/1585645555812.png" alt="" loading="lazy"><br>
-注意： 安装时可能会因为网速等原因导致安装时间比较长，请大家耐心等待。如果长时间停留在安装页没反应，请尝试使用 F5 刷新一下。</p>
-<h1 id="使用自定义插件的方式安装">使用自定义插件的方式安装</h1>
-<p>插件是 Jenkins 的核心，其丰富的插件（截止到 2018.10.29 共有 77350 个插件）可以满足不同人群的不同需求</p>
-<p>插件地址：https://plugins.jenkins.io/</p>
-<p>注意： 除了默认勾选的插件外，一定要勾选 Publish over SSH 插件，这是我们实现持续交付的重点插件。</p>
-<p><strong>开始安装了，根据网络情况，安装时间可能会比较长，请耐心等待</strong></p>
-<p><strong>很多插件装不上怎么办？不要慌，记住这些插件的名字，咱们稍后可以手动安装</strong></p>
-<h1 id="安装成功效果图">安装成功效果图</h1>
-<p>创建管理员<br>
-<img src="https://maodou38.github.io/post-images/1585645612510.png" alt="" loading="lazy"></p>
-<p>安装完成，进入首页</p>
-<h1 id="附jenkins-手动安装插件">附：Jenkins 手动安装插件</h1>
-<h2 id="使用插件管理器安装">使用插件管理器安装</h2>
-<p>Manage Jenkins -&gt; Manage Plugins -&gt; Avaliable</p>
-<p>过滤出想要安装的插件，然后点击 Download now and install after restart</p>
-<h2 id="手动上传-hpi-文件">手动上传 .hpi 文件</h2>
-<p>点击进入插件中心</p>
-<p>点击 Archives</p>
-<p>下载需要的版本</p>
-<p>在插件管理器中选择 Advanced</p>
-<p>选择上传即可<br>
-<img src="https://maodou38.github.io/post-images/1585645652068.png" alt="" loading="lazy"></p>
-<h2 id="重启-jenkins">重启 Jenkins</h2>
-<pre><code>docker-compose down
-docker-compose up -d
+<h1 id="更改yum源与更新系统">更改yum源与更新系统</h1>
+<p>备份</p>
+<pre><code>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 </code></pre>
-<p>注意： 请留意需要下载插件的警告信息，如果不满足安装条件，Jenkins 是会拒绝安装的。如下图：<br>
-<img src="https://maodou38.github.io/post-images/1585645687846.png" alt="" loading="lazy"></p>
+<p>下载yum源配置文件，放入/etc/yum.repos.d/</p>
+<pre><code>wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo
+</code></pre>
+<p>运行yum makecache生成缓存</p>
+<pre><code>yum makecache
+</code></pre>
+<p>更新系统</p>
+<pre><code>yum -y update
+</code></pre>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://maodou38.github.io/KYZWwXoIC/" class="tag">
-                    jenkins
-                  </a>
-                
-                  <a href="https://maodou38.github.io/0fasDvTStZ/" class="tag">
-                    CI
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://maodou38.github.io/use-fastdfs/">
+                <a href="https://maodou38.github.io/zhu-yi-dian/">
                   <h3 class="post-title">
-                    使用FastDFS
+                    注意点
                   </h3>
                 </a>
               </div>
