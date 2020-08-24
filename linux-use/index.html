@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1597407587117">
+<link rel="shortcut icon" href="https://maodou38.github.io/favicon.ico?v=1598267994135">
 <link rel="stylesheet" href="https://maodou38.github.io/styles/main.css">
 
 
@@ -37,6 +37,7 @@
 
 修改SSH默认端口
 开启BBR
+dockerDNS
 
 修改SSH默认端口
 1 修改端口
@@ -45,8 +46,7 @@
 
    
 2 防火墙放行
-#修改XXX为上面修改后端口
-firew..." />
+#修改XXX为上面修..." />
     <meta name="keywords" content="Linux" />
   </head>
   <body>
@@ -56,7 +56,7 @@ firew..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://maodou38.github.io">
-        <img src="https://maodou38.github.io/images/avatar.png?v=1597407587117" class="site-logo">
+        <img src="https://maodou38.github.io/images/avatar.png?v=1598267994135" class="site-logo">
         <h1 class="site-title">小丁的blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -122,6 +122,7 @@ firew..." />
 <ul>
 <li><a href="#%E4%BF%AE%E6%94%B9ssh%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3">修改SSH默认端口</a></li>
 <li><a href="#%E5%BC%80%E5%90%AFBBR">开启BBR</a></li>
+<li><a href="#dockerDNS">dockerDNS</a></li>
 </ul>
 <h1 id="修改ssh默认端口">修改SSH默认端口</h1>
 <h2 id="1-修改端口">1 修改端口</h2>
@@ -173,6 +174,18 @@ sysctl -p
 sed -i '/net\.core\.default_qdisc=fq/d' /etc/sysctl.conf
 sed -i '/net\.ipv4\.tcp_congestion_control=bbr/d' /etc/sysctl.conf
 sysctl -p
+</code></pre>
+<h1 id="dockerdns">dockerDNS</h1>
+<p>docker 无法访问DNS服务</p>
+<h2 id="宿主机防火墙开启伪装ip功能">宿主机防火墙开启伪装IP功能</h2>
+<pre><code>firewall-cmd --zone=public --add-masquerade --permanent
+firewall-cmd --reload
+systemctl restart firewalld
+systemctl restart docker
+</code></pre>
+<h2 id="trusted-zone">trusted zone</h2>
+<pre><code>firewall-cmd --permanent --zone=trusted --add-interface=docker0
+firewall-cmd --reload
 </code></pre>
 
             </div>
