@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://maodou38.github.io</id>
     <title>小丁的blog</title>
-    <updated>2020-08-24T11:19:56.589Z</updated>
+    <updated>2020-08-25T05:35:11.351Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://maodou38.github.io"/>
     <link rel="self" href="https://maodou38.github.io/atom.xml"/>
@@ -12,6 +12,13 @@
     <logo>https://maodou38.github.io/images/avatar.png</logo>
     <icon>https://maodou38.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 小丁的blog</rights>
+    <entry>
+        <title type="html"><![CDATA[docker 多架构构建镜像]]></title>
+        <id>https://maodou38.github.io/docker-duo-jia-gou-gou-jian-jing-xiang/</id>
+        <link href="https://maodou38.github.io/docker-duo-jia-gou-gou-jian-jing-xiang/">
+        </link>
+        <updated>2020-08-25T05:23:22.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Centos]]></title>
         <id>https://maodou38.github.io/centos-use/</id>
@@ -39,12 +46,5 @@
         <link href="https://maodou38.github.io/nginx/">
         </link>
         <updated>2020-05-30T16:00:00.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Validation使用]]></title>
-        <id>https://maodou38.github.io/validation/</id>
-        <link href="https://maodou38.github.io/validation/">
-        </link>
-        <updated>2020-05-25T02:39:55.000Z</updated>
     </entry>
 </feed>
