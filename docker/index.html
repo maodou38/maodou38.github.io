@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-<title>各种资源地址整理 | 小丁的blog</title>
+<title>Docker | 小丁的blog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -33,23 +33,13 @@
 </script>
 
 
-    <meta name="description" content="pandas中文文档
-redis命令大全
-单点登录—CAS
-RabbitMQ
-MyBatis-Plus
-搭建FastDFS
+    <meta name="description" content="远程连接
+配置
 
+修改/etc/docker/daemon.json (不推荐)
 
-
-单点登录—CAS
-
-初识SSO
-搭建基础服务
-多种认证方式
-自定义认证登录策略
-Service配置及管理
-自定..." />
+  {
+    &quot;hosts&quot;: [&quot;unix:///var/run/docker.sock&quot;, &quot;tcp..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -117,57 +107,72 @@ Service配置及管理
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">各种资源地址整理</h2>
-            <div class="post-date">2020-03-26</div>
+            <h2 class="post-title">Docker</h2>
+            <div class="post-date">2020-08-31</div>
             
             <div class="post-content" v-pre>
-              <p><a href="https://www.pypandas.cn/">pandas中文文档</a><br>
-<a href="http://redisdoc.com/">redis命令大全</a><br>
-<a href="#%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E2%80%94CAS">单点登录—CAS</a><br>
-<a href="#rabbitmq">RabbitMQ</a><br>
-<a href="https://mp.baomidou.com/">MyBatis-Plus</a><br>
-<a href="https://github.com/happyfish100/fastdfs">搭建FastDFS</a><br>
-<br/><br>
-<br/><br>
-<br/></p>
-<h1 id="单点登录cas">单点登录—CAS</h1>
+              <h1 id="远程连接">远程连接</h1>
+<h2 id="配置">配置</h2>
+<blockquote>
+<p>修改/etc/docker/daemon.json (不推荐)</p>
+</blockquote>
+<pre><code>  {
+    &quot;hosts&quot;: [&quot;unix:///var/run/docker.sock&quot;, &quot;tcp://0.0.0.0:2375&quot;]
+    }
+</code></pre>
 <ul>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/80821486">初识SSO</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/81045885">搭建基础服务</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/81149249">多种认证方式</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/81590595">自定义认证登录策略</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/82119246">Service配置及管理</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/82728641">自定义登录界面和表单信息</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/83154397">自定义验证码以及自定义错误信息</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/85132517">多属性返回</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/87897230">客户端接入</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/88912964">通过Restful协议请求认证和退出</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/89069445">单点退出</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/90578300">集群部署</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/94859351">客户端前后端分离接入</a><br>
-<br/><br>
-<br/></li>
+<li>如果使用service启动的docker，并不会生效，会报配置错误</li>
 </ul>
-<h1 id="rabbitmq">RabbitMQ</h1>
-<ul>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/79691090">初识RabbitMQ</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/79920854">AMQP协议</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/80172515">探索交换机(Exchange)，结合SpringBoot实战</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/80370363">消息分发机制</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/80686445">消息确认机制(AMQP事务)</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/81321701">消息确认机制(Confirm模式)</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/83513844">权限管理</a></li>
-<li><a href="https://blog.csdn.net/Anumbrella/article/details/88594222">做WebSocket消息代理，集成Spring Boot实现消息实时推送</a></li>
-</ul>
+<blockquote>
+<p>修改service配置</p>
+</blockquote>
+<pre><code>sudo systemctl edit docker.service
+</code></pre>
+<p>打开一个覆盖docker.service的配置文件</p>
+<pre><code>[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
+</code></pre>
+<p>保存，重启systemctl配置</p>
+<pre><code>sudo systemctl daemon-reload
+</code></pre>
+<p>重启docker</p>
+<pre><code>sudo systemctl restart docker.service
+</code></pre>
+<p>检查端口是否开启</p>
+<pre><code>$ sudo netstat -nltp | grep dockerd
+tcp6       0      0 :::2375                 :::*                    LISTEN
+</code></pre>
+<h2 id="防火墙开启对应端口">防火墙开启对应端口</h2>
+<h3 id="官网">官网</h3>
+<figure data-type="image" tabindex="1"><img src="https://maodou38.github.io/post-images/1598831141582.png" alt="" loading="lazy"></figure>
+<h3 id="centos自定义service">centos自定义Service</h3>
+<p>创建/etc/firewalld/services/docker.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;service&gt;
+     &lt;short&gt;docker&lt;/short&gt;
+      &lt;description&gt;docker daemon for remote access&lt;/description&gt;
+      &lt;port protocol=&quot;tcp&quot; port=&quot;2375&quot;/&gt;
+ &lt;/service&gt;
+</code></pre>
+<p>查看默认zone(一般是public)</p>
+<pre><code>firewall-cmd --get-default-zone
+</code></pre>
+<p>在zone中加入这个service</p>
+<pre><code>firewall-cmd --zone=public --add-service=docker --permanent
+</code></pre>
+<p>重新加载</p>
+<pre><code>firewall-cmd --reload
+</code></pre>
 
             </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://maodou38.github.io/linux-use/">
+                <a href="https://maodou38.github.io/docker-buildx/">
                   <h3 class="post-title">
-                    Linux日常操作
+                    docker 多架构构建镜像
                   </h3>
                 </a>
               </div>
